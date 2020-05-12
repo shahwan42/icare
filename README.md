@@ -1,6 +1,6 @@
 # ClickUp Tasks Board
 
-An easy-to-use tasks board frontend for ClickUp
+An easy-to-use tasks board front-end for ClickUp
 
 ## Import Spaces
 <!-- TODO -->
