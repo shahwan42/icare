@@ -40,3 +40,13 @@ class UsersManagersTests(TestCase):
             User.objects.create_superuser(
                 email="super@user.com", password="foo", is_superuser=False
             )
+
+    def test_get_full_name_and_short_name(self):
+        User = get_user_model()
+        user = User.objects.create_user(
+            email="normal@user.com", password="foo", name="first last",
+        )
+        breakpoint()
+        self.assertEqual(user.name, "first last")
+        self.assertEqual(user.get_full_name(), "first last")
+        self.assertEqual(user.get_short_name(), "first")
