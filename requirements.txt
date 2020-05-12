@@ -4,11 +4,13 @@ requests==2.23.0
 # django
 Django==2.2.12
 psycopg2-binary==2.8.4
+django-extensions==2.2.9
 
 # dev packages
 black==19.10b0
 flake8==3.8.0
 flake8-black==0.1.1
+ipython==7.14.0
 
 # deploy
 gunicorn==20.0.4

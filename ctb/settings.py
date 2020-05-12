@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third-party
+    "django_extensions",
     # Local
     "users.apps.UsersConfig",
     "pages.apps.PagesConfig",
