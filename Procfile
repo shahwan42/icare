@@ -1,1 +1,1 @@
-web: gunicorn cbt.wsgi --log-file -
+web: gunicorn ctb.wsgi --log-file -
