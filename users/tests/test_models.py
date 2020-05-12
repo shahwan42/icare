@@ -44,9 +44,15 @@ class UsersManagersTests(TestCase):
     def test_get_full_name_and_short_name(self):
         User = get_user_model()
         user = User.objects.create_user(
-            email="normal@user.com", password="foo", name="first last",
+            email="normal@user.com", password="foo", name="first last"
         )
-        breakpoint()
         self.assertEqual(user.name, "first last")
         self.assertEqual(user.get_full_name(), "first last")
         self.assertEqual(user.get_short_name(), "first")
+
+        another_user = User.objects.create_user(
+            email="another_user@user.com", password="foo"
+        )
+        self.assertEqual(another_user.name, "")
+        self.assertIsNone(another_user.get_full_name())
+        self.assertIsNone(another_user.get_short_name())
