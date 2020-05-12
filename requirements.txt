@@ -9,3 +9,6 @@ psycopg2-binary==2.8.4
 black==19.10b0
 flake8==3.8.0
 flake8-black==0.1.1
+
+# deploy
+gunicorn==20.0.4
