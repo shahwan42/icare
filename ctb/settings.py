@@ -16,10 +16,7 @@ import environ
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+env = environ.Env()
 # reading .env file
 READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
 if READ_DOT_ENV_FILE:
@@ -29,10 +26,10 @@ if READ_DOT_ENV_FILE:
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ")%o=n4j^j^1yf#*i-tlap%lyi5gy8in(*g#))4%2&iuxcqfjv&"
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "clickup-tasks-board.herokuapp.com"]
 
@@ -133,3 +130,8 @@ AUTH_USER_MODEL = "users.CustomUser"
 
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+
+# ClickUp
+CLICKUP_CLIENT_ID = env("CLICKUP_CLIENT_ID")
+CLICKUP_CLIENT_SECRET = env("CLICKUP_CLIENT_SECRET")
