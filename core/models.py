@@ -60,3 +60,4 @@ class CTask(CEntity):
     c_list = models.ForeignKey(
         CList, on_delete=models.CASCADE, related_name="tasks", null=True, blank=True
     )
+    status = models.CharField(_("status"), max_length=100, blank=True)
