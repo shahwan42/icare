@@ -14,6 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.models import Group
+
 from django.urls import path, include
 from django.views.generic.base import TemplateView
 
@@ -29,3 +31,4 @@ urlpatterns = [
 admin.site.site_header = "CTB Admin"
 admin.site.site_title = "CTB Admin Portal"
 admin.site.index_title = "Welcome to CTB Portal"
+admin.site.unregister(Group)
