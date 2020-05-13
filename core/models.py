@@ -19,7 +19,7 @@ class CEntity(models.Model):
         return self.name
 
     def __repr__(self):
-        return f"<{__class__.__name__}, id: {self.c_id}>"
+        return f"<{self.__class__.__name__}, ClickUp_id: {self.c_id}>"
 
 
 class CTeam(models.Model):
