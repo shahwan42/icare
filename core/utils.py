@@ -9,7 +9,8 @@ req_headers = {"Authorization": access_token}
 
 def get_teams() -> list:
     url = f"{base_url}team"
-    return requests.get(url, headers=req_headers).json()
+    teams = requests.get(url, headers=req_headers).json()
+    return teams.get("teams")
 
 
 def get_team(position: int) -> dict:
