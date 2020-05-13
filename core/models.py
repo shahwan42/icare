@@ -28,6 +28,10 @@ class CTeam(models.Model):
     name = models.CharField(_("name"), max_length=255)
     is_active = models.BooleanField(_("is active?"), default=True)
 
+    class Meta:
+        verbose_name = "ClickUp Team"
+        verbose_name_plural = "ClickUp Teams"
+
 
 class CSpace(CEntity):
     """ClickUp Space representation"""
@@ -35,6 +39,10 @@ class CSpace(CEntity):
     c_team = models.ForeignKey(
         CTeam, on_delete=models.CASCADE, related_name="spaces", null=True, blank=True
     )
+
+    class Meta:
+        verbose_name = "ClickUp Space"
+        verbose_name_plural = "ClickUp Spaces"
 
 
 class CFolder(CEntity):
@@ -44,6 +52,10 @@ class CFolder(CEntity):
         CSpace, on_delete=models.CASCADE, related_name="folders", null=True, blank=True
     )
 
+    class Meta:
+        verbose_name = "ClickUp Folder"
+        verbose_name_plural = "ClickUp Folders"
+
 
 class CList(CEntity):
     """ClickUp List representation"""
@@ -51,6 +63,16 @@ class CList(CEntity):
     c_folder = models.ForeignKey(
         CFolder, on_delete=models.CASCADE, related_name="lists", null=True, blank=True
     )
+
+    # TODO in case of folderless lists, don't do it until asked strongly
+    # force current structure for lower cost
+    # c_space = models.ForeignKey(
+    #     CSpace, on_delete=models.CASCADE, related_name="lists", null=True, blank=True
+    # )
+
+    class Meta:
+        verbose_name = "ClickUp List"
+        verbose_name_plural = "ClickUp Lists"
 
 
 class CTask(CEntity):
@@ -61,3 +83,7 @@ class CTask(CEntity):
         CList, on_delete=models.CASCADE, related_name="tasks", null=True, blank=True
     )
     status = models.CharField(_("status"), max_length=100, blank=True)
+
+    class Meta:
+        verbose_name = "ClickUp Task"
+        verbose_name_plural = "ClickUp Tasks"
