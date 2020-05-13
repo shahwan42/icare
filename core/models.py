@@ -7,8 +7,8 @@ class CEntity(models.Model):
 
     c_id = models.PositiveIntegerField(_("ClickUp ID"), unique=True)
     is_active = models.BooleanField(_("is active?"), null=True)
-    name = models.TextField(_("name"), max_length=2048)
-    description = models.TextField(_("description"))
+    name = models.TextField(_("name"), max_length=2048, null=True)
+    description = models.TextField(_("description"), null=True)
 
     class Meta:
         abstract = True
