@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
+from core.models import CSpace
+
+
+class Home(ListView):
+    template_name = "pages/home.html"
+    queryset = CSpace.objects.filter(is_active=True)

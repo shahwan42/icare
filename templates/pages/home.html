@@ -11,4 +11,14 @@
   <a href="{% url 'login' %}">login</a>
   {% comment %} | <a href="{% url 'signup' %}">signup</a> {% endcomment %}
 {% endif %}
+
+<hr>
+
+<div>
+<h2 class="display-6 mb-3">Choose your ticket type</h2>
+{% for object in object_list %}
+  <a href="#" class="btn btn-outline-primary mb-3">{{ object.c_id }} - {{ object.name }}</a>
+  <br>
+{% endfor %}
+</div>
 {% endblock %}

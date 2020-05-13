@@ -17,11 +17,11 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 
 from django.urls import path, include
-from django.views.generic.base import TemplateView
+from pages.views import Home
 
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("", Home.as_view(), name="home"),
     path("admin/", admin.site.urls),
     # path("users/", include("users.urls")),
     path("users/", include("django.contrib.auth.urls")),
