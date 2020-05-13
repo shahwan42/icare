@@ -1,0 +1,83 @@
+- create task
+POST https://api.clickup.com/api/v2/list/{list_id}/task
+body:
+{
+  "name": "New Task Name",
+  "content": "New Task Content",
+  "assignees": [
+    183
+  ],
+  "tags": [
+    "tag name 1"
+  ],
+  "status": "Open",
+  "priority": 3,
+  "due_date": 1508369194377,
+  "due_date_time": false,
+  "time_estimate": 8640000,
+  "start_date": 1567780450202,
+  "start_date_time": false,
+  "notify_all": true,
+  "parent": null,
+  "links_to": null,
+  "custom_fields": [
+    {
+      "id": "0a52c486-5f05-403b-b4fd-c512ff05131c",
+      "value": 23
+    },
+    {
+      "id": "03efda77-c7a0-42d3-8afd-fd546353c2f5",
+      "value": "Text field input"
+    }
+  ]
+}
+response
+HEADERS
+Content-Type:application/json
+BODY
+{'id': '58j54b',
+ 'name': 'New task name1',
+ 'text_content': 'new task content#1',
+ 'description': 'new task content#1',
+ 'status': {'status': 'to do',
+  'color': '#d3d3d3',
+  'orderindex': 0,
+  'type': 'open'},
+ 'orderindex': '83.00000000000000000000000000000000',
+ 'date_created': '1589403265956',
+ 'date_updated': '1589403265956',
+ 'date_closed': None,
+ 'archived': False,
+ 'creator': {'id': 2616774,
+  'username': 'Ahmed Shahwan',
+  'color': '#ffa727',
+  'email': 'ahmed@shahwan.me',
+  'profilePicture': 'https://attachments.clickup.com/profilePictures/2616774_APG.jpg'},
+ 'assignees': [],
+ 'watchers': [{'id': 2616774,
+   'username': 'Ahmed Shahwan',
+   'color': '#ffa727',
+   'initials': 'AS',
+   'email': 'ahmed@shahwan.me',
+   'profilePicture': 'https://attachments.clickup.com/profilePictures/2616774_APG.jpg'}],
+ 'checklists': [],
+ 'tags': [],
+ 'parent': None,
+ 'priority': None,
+ 'due_date': None,
+ 'start_date': None,
+ 'time_estimate': None,
+ 'time_spent': 0,
+ 'custom_fields': [],
+ 'dependencies': [],
+ 'linked_tasks': [],
+ 'team_id': '2536606',
+ 'url': 'https://app.clickup.com/t/58j54b',
+ 'permission_level': 'create',
+ 'list': {'id': '19430919', 'name': 'main_space_list', 'access': True},
+ 'project': {'id': '8969133',
+  'name': 'hidden',
+  'hidden': True,
+  'access': True},
+ 'folder': {'id': '8969133', 'name': 'hidden', 'hidden': True, 'access': True},
+ 'space': {'id': '2671955'}}
