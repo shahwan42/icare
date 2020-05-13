@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 from django.utils.translation import gettext_lazy as _
 
 
@@ -79,8 +81,16 @@ class CTask(CEntity):
     """ClickUp Task representation"""
 
     c_id = models.CharField(_("ClickUp ID"), max_length=12, unique=True)
+    c_json_res = JSONField(_("ClickUp JSON Response"), null=True, blank=True)
     c_list = models.ForeignKey(
         CList, on_delete=models.CASCADE, related_name="tasks", null=True, blank=True
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="tasks",
+        null=True,
+        blank=True,
     )
     status = models.CharField(_("status"), max_length=100, blank=True)
 
