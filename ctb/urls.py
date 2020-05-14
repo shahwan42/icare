@@ -15,13 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth.models import Group
-
+from django.views.generic import TemplateView
 from django.urls import path, include
-from pages.views import Home
 
+from pages.views import Home
+from core.views import NewTask
 
 urlpatterns = [
     path("", Home.as_view(), name="home"),
+    path("new_task/<int:space_id>", NewTask.as_view(), name="new_task"),
+    path(
+        "new_task/success",
+        TemplateView.as_view(template_name="core/new_task_success.html"),
+        name="new_task_success",
+    ),
     path("admin/", admin.site.urls),
     # path("users/", include("users.urls")),
     path("users/", include("django.contrib.auth.urls")),

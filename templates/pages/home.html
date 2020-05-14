@@ -4,20 +4,20 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.name }}!
-  <p><a href="{% url 'logout' %}">logout</a></p>
+  مرحباً {{ user.name }}!
+  <p><a href="{% url 'logout' %}">الخروج</a></p>
 {% else %}
   <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a>
+  <a href="{% url 'login' %}">الدخول</a>
   {% comment %} | <a href="{% url 'signup' %}">signup</a> {% endcomment %}
 {% endif %}
 
 <hr>
 
 <div>
-<h2 class="display-6 mb-3">Choose your ticket type</h2>
+<h2 class="display-6 mb-3">اختر نوع طلبك</h2>
 {% for object in object_list %}
-  <a href="#" class="btn btn-outline-primary mb-3">{{ object.c_id }} - {{ object.name }}</a>
+  <a href="{% url 'new_task' object.c_id %}" class="btn btn-outline-primary mb-3">{{ object.name }}</a>
   <br>
 {% endfor %}
 </div>
