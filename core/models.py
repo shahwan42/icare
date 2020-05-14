@@ -82,6 +82,7 @@ class CTask(CEntity):
 
     c_id = models.CharField(_("ClickUp ID"), max_length=12, unique=True)
     c_json_res = JSONField(_("ClickUp JSON Response"), null=True, blank=True)
+    c_update_json_res = JSONField(_("TaskUpdated JSON Response"), null=True, blank=True)
     c_list = models.ForeignKey(
         CList, on_delete=models.CASCADE, related_name="tasks", null=True, blank=True
     )
@@ -92,8 +93,23 @@ class CTask(CEntity):
         null=True,
         blank=True,
     )
-    status = models.CharField(_("status"), max_length=100, blank=True)
+    status = models.CharField(_("status"), max_length=100, null=True, blank=True)
 
     class Meta:
         verbose_name = "ClickUp Task"
         verbose_name_plural = "ClickUp Tasks"
+
+
+class Webhook(models.Model):
+    c_team = models.ForeignKey(
+        CTeam, on_delete=models.CASCADE, related_name="webhooks", null=True, blank=True
+    )
+    c_id = models.CharField(_("ClickUp ID"), max_length=50, unique=True)
+    c_json_res = JSONField(_("ClickUp JSON Response"), null=True, blank=True)
+
+    def __str__(self):
+        if self.c_json_res:
+            return self.c_json_res.get("webhook").get("endpoint")
+
+    def __repr__(self):
+        return f"<Webhook, ClickUp_id: {self.c_id}>"

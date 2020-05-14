@@ -19,11 +19,12 @@ from django.views.generic import TemplateView
 from django.urls import path, include
 
 from pages.views import Home
-from core.views import NewTask
+from core.views import NewTask, TaskUpdatedWebhook
 from users.views import UserTasks
 
 urlpatterns = [
     path("", Home.as_view(), name="home"),
+    path("task_updated", TaskUpdatedWebhook.as_view(), name="task_updated"),
     path("user_tasks", UserTasks.as_view(), name="user_tasks"),
     path(
         "user_profile",

@@ -82,3 +82,9 @@ def create_task(list_id: int, payload: dict) -> dict:
     # list_id 19430919
     url = f"{base_url}list/{list_id}/task"
     return requests.post(url, json=payload, headers=req_headers).json()
+
+
+def create_webhook(team_id: int, payload: dict) -> dict:
+    # team_id 2536606
+    url = f"{base_url}team/{team_id}/webhook"
+    return requests.post(url, json=payload, headers=req_headers).json()

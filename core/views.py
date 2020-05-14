@@ -1,6 +1,14 @@
+import json
+
 from django.shortcuts import render, redirect, reverse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from django.http.response import HttpResponse, Http404, HttpResponseNotAllowed
+from django.http.response import (
+    Http404,
+    HttpResponseNotAllowed,
+    JsonResponse,
+)
 
 from .models import CSpace, CList, CTask
 from . import utils as u, payloads as p
@@ -57,3 +65,30 @@ class NewTask(View):
             )
 
         return redirect(reverse("new_task_success"))
+
+
+# ==================== Webhooks
+
+
+class TaskUpdatedWebhook(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(TaskUpdatedWebhook, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if hasattr(request, "body"):
+            # print(request.body)
+            remote_task = json.loads(request.body)
+            if not remote_task.get("task_id"):
+                return JsonResponse(status=400)
+
+            print(remote_task)
+            qs = CTask.objects.filter(c_id=remote_task.get("task_id"))
+            if qs.exists():
+                task = qs.first()
+                task.c_update_json_res = remote_task
+                task.status = (
+                    remote_task.get("history_items")[0].get("after").get("status")
+                )
+                task.save()
+        return JsonResponse({}, status=200)

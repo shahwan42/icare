@@ -31,7 +31,12 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "clickup-tasks-board.herokuapp.com"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "clickup-tasks-board.herokuapp.com",
+    ".ngrok.io",
+]
 
 
 # Application definition
@@ -145,3 +150,7 @@ CLICKUP_CLIENT_ID = env("CLICKUP_CLIENT_ID")
 CLICKUP_CLIENT_SECRET = env("CLICKUP_CLIENT_SECRET")
 CLICKUP_API_TOKEN = env("CLICKUP_API_TOKEN")
 CLICKUP_API_URL = env("CLICKUP_API_URL")
+
+
+# website url
+WEBSITE_URL = env("WEBSITE_URL")
