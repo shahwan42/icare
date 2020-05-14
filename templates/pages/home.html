@@ -10,7 +10,7 @@
     <p><a href="{% url 'logout' %}">الخروج</a></p>
   </div>
   <div class="d-flex flex-column">
-    <a href="#" class="btn btn-outline-primary mb-2">الصفحة الشخصية</a>
+    <a href="{% url 'user_profile' %}" class="btn btn-outline-primary mb-2">الصفحة الشخصية</a>
     <a href="{% url 'user_tasks' %}" class="btn btn-outline-primary">طلباتي</a>
   </div>
 </div>
