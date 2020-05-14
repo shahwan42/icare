@@ -53,7 +53,7 @@ class NewTask(View):
                 c_list=c_list,
                 is_active=True,
                 user=request.user,
-                status=remote_task.get("status"),
+                status=remote_task.get("status").get("status"),
             )
 
         return redirect(reverse("new_task_success"))

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if object_list %}
+  <div class="row">
+    <div class="col">العنوان</div>
+    <div class="col">الحالة</div>
+  </div>
+  <hr>
+  {% for object in object_list %}
+  <div class="row">
+    <div class="col">{{ object.name }}</div>
+    <div class="col">{{ object.status }}</div>
+  </div>
+  {% endfor %}
+{% else %}
+<p>ليس لديك طلبات</p>
+{% endif %}
+{% endblock content %}

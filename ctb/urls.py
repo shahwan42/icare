@@ -20,9 +20,11 @@ from django.urls import path, include
 
 from pages.views import Home
 from core.views import NewTask
+from users.views import UserTasks
 
 urlpatterns = [
     path("", Home.as_view(), name="home"),
+    path("user_tasks", UserTasks.as_view(), name="user_tasks"),
     path("new_task/<int:space_id>", NewTask.as_view(), name="new_task"),
     path(
         "new_task/success",
