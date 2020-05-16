@@ -14,6 +14,8 @@ import os
 
 import environ
 import sentry_sdk
+import django_heroku
+
 from sentry_sdk.integrations.django import DjangoIntegration
 
 
@@ -179,3 +181,6 @@ WEBSITE_URL = env("WEBSITE_URL")
 
 # crispy
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+
+django_heroku.settings(locals())
