@@ -137,7 +137,7 @@ def import_teams_data(team_id: int):
             )
             if created:
                 current_folder.is_active = False
-            current_folder.c_space = space
+            current_folder.space = space
             current_folder.name = folder.get("name")
             current_folder.description = folder.get("description")
             current_folder.save()
@@ -155,7 +155,7 @@ def import_teams_data(team_id: int):
             )
             if created:
                 current_list.is_active = False
-            current_list.c_folder = folder
+            current_list.folder = folder
             current_list.name = list_.get("name")
             current_list.description = list_.get("description")
             current_list.save()
