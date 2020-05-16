@@ -3,18 +3,27 @@
 {% block content %}
 
 {% if object_list %}
-  <div class="row">
-    <div class="col">العنوان</div>
-    <div class="col">الحالة</div>
-  </div>
-  <hr>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">الحالة</th>
+      <th scope="col">العنوان</th>
+      <th scope="col">الرمز التعريفي</th>
+    </tr>
+  </thead>
+  <tbody>
   {% for object in object_list %}
-  <div class="row">
-    <div class="col">{{ object.name }}</div>
-    <div class="col">{{ object.status }}</div>
-  </div>
+    <tr>
+      <td>{{ object.status }}</td>
+      <td>{{ object.name }}</td>
+      <th scope="row">{{ object.clickup_id }}</th>
+    </tr>
   {% endfor %}
+  </tbody>
+</table>
+
 {% else %}
-<p>ليس لديك طلبات</p>
+<h1 class="text-center display-5">ليس لديك طلبات</h1>
 {% endif %}
 {% endblock content %}

@@ -25,11 +25,19 @@
 
 <div>
 {% if user.is_authenticated %}
-<h2 class="display-6 mb-3">اختر نوع طلبك</h2>
-{% for object in object_list %}
-  <a href="{% url 'new_task' object.clickup_id %}" class="btn btn-outline-primary mb-3">{{ object.name }}</a>
-  <br>
-{% endfor %}
+<h2 class="display-6 mb-3 text-center mb-5">اختر نوع طلبك</h2>
+<div class="row">
+  {% for object in object_list %}
+  <div class="card text-center col m-3" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{ object.name }}</h5>
+      <p class="card-text">{{ obj.description }}</p>
+      <a href="{% url 'new_task' object.clickup_id %}" class="btn btn-outline-primary mb-3">تقديم طلب</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
 </div>
 {% endif %}
 

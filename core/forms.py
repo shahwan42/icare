@@ -36,5 +36,5 @@ class NewTaskForm(forms.Form):
         self.fields["_list"] = forms.ModelChoiceField(
             label="الفئة",
             queryset=folder.lists.filter(is_active=True),
-            empty_label="(default)",
+            empty_label="------",
         )

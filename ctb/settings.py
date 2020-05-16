@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Third-party
     "django_extensions",
+    "crispy_forms",
     # Local
     "users.apps.UsersConfig",
     "pages.apps.PagesConfig",
@@ -154,3 +155,6 @@ CLICKUP_API_URL = env("CLICKUP_API_URL")
 
 # website url
 WEBSITE_URL = env("WEBSITE_URL")
+
+# crispy
+CRISPY_TEMPLATE_PACK = "bootstrap4"
