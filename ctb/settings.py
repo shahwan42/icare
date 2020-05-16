@@ -11,18 +11,29 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import environ
+
+# import environ
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://1bddd494aace428789fc5877e718a224@o393606.ingest.sentry.io/5242938",
+    integrations=[DjangoIntegration()],
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True,
+)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # reading .env file
-READ_DOT_ENV_FILE = os.environ.get("READ_DOT_ENV_FILE", default="True")
-if READ_DOT_ENV_FILE:
-    env = environ.Env()
-    environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
-else:
-    env = os.getenv
+# READ_DOT_ENV_FILE = os.environ.get("READ_DOT_ENV_FILE", default="True")
+# if READ_DOT_ENV_FILE:
+#     env = environ.Env()
+#     environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+# else:
+env = os.getenv
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
