@@ -106,9 +106,10 @@ class NewTask(View):
         else:
             return HttpResponseBadRequest("Invalid data")
 
+        clickup_description = f"{description}\n\n user's email: {request.user.email}\n"
         # create new task on clickup
         remote_task = u.create_task(
-            c_list.c_id, p.create_task_payload(name, description)
+            c_list.c_id, p.create_task_payload(name, clickup_description)
         )
 
         # save task representation locally after making sure it's created
