@@ -12,7 +12,7 @@ def create_task_payload(
         # "tags": None,  # ["tag name 1"],
         # "status": "Open",
         # "priority": 3,  # 1 : Urgent, 2 : High, 3 : Normal, 4 : Low.
-        "due_date": None,  # 1508369194377,
+        "due_date": due_date,  # 1508369194377,
         # "due_date_time": False,
         # "time_estimate": None,  # 8640000,
         # "start_date": None,  # 1567780450202,

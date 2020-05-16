@@ -20,11 +20,11 @@ class NewTaskForm(forms.Form):
     description = forms.CharField(
         label="الوصف", widget=forms.Textarea(attrs={"rows": 10, "cols": 30})
     )
-    due_date = forms.DateField(
+    due_date = forms.DateTimeField(
         # input_formats=["%d/%m/%Y"],
         label="موعد التسليم",
         required=False,
-        widget=forms.DateInput(
+        widget=forms.DateTimeInput(
             format=("%d-%m-%Y"), attrs={"type": "date", "min": "2020-1-1"},
         ),
     )

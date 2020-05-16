@@ -107,26 +107,31 @@ class NewTask(View):
         else:
             return HttpResponseBadRequest("Invalid data")
 
-        # breakpoint()
+        breakpoint()
+
         clickup_description = f"{description}\n\n user's email: {request.user.email}\n"
         # create new task on clickup
         remote_task = u.create_task(
             _list.clickup_id,
-            p.create_task_payload(name, clickup_description, due_date=due_date),
+            p.create_task_payload(
+                name, clickup_description, due_date=int(due_date.timestamp() * 1000),
+            ),
         )
 
         # save task representation locally after making sure it's created
-        if remote_task:
-            Task.objects.create(
-                clickup_id=remote_task.get("id"),
-                created_json=remote_task,
-                name=remote_task.get("name"),
-                description=description,
-                _list=_list,
-                is_active=True,
-                user=request.user,
-                status=remote_task.get("status").get("status"),
-            )
+        if remote_task and remote_task.get("err"):
+            return HttpResponseBadRequest("Invalid data")
+
+        Task.objects.create(
+            clickup_id=remote_task.get("id"),
+            created_json=remote_task,
+            name=remote_task.get("name"),
+            description=description,
+            _list=_list,
+            is_active=True,
+            user=request.user,
+            status=remote_task.get("status").get("status"),
+        )
 
         return redirect(reverse("new_task_success"))
 
