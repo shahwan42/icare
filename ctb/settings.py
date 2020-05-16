@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 env = environ.Env()
 # reading .env file
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
+READ_DOT_ENV_FILE = os.environ.get("READ_DOT_ENV_FILE", default="True")
 if READ_DOT_ENV_FILE:
     environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
