@@ -1,5 +1,6 @@
 import json
 
+import logging
 from django.shortcuts import render, redirect, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -14,6 +15,8 @@ from django.http.response import (
 from .models import Space, Folder, List, Task
 from . import utils as u, payloads as p
 from .forms import NewTaskForm
+
+loger = logging.getLogger(__name__)
 
 
 class NewTaskInSpace(View):
@@ -107,7 +110,7 @@ class NewTask(View):
         else:
             return HttpResponseBadRequest("Invalid data")
 
-        breakpoint()
+        # breakpoint()
 
         clickup_description = f"{description}\n\n user's email: {request.user.email}\n"
         # create new task on clickup
@@ -152,6 +155,7 @@ class TaskUpdatedWebhook(View):
                 return JsonResponse(status=400)
 
             print(remote_task)
+            loger.info(remote_task)
             history_items = remote_task.get("history_items")
 
             qs = Task.objects.filter(clickup_id=remote_task.get("task_id"))
