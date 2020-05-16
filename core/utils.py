@@ -102,11 +102,14 @@ def import_teams_data(team_id: int):
         saved_team.is_active = False
         saved_team.save()
 
+    team_name = None
     # getting rest of team info
     teams = get_teams()
     for team in teams:
         if str(team.get("id")) == str(team_id):
+            print("current_team>>>>>>>>.\n", team)
             saved_team.name = team.get("name")
+            team_name = team.get("name")
             saved_team.is_active = True
             saved_team.save()
 
@@ -163,6 +166,8 @@ def import_teams_data(team_id: int):
             saved_lists.append(current_list)
 
     print("Done")
+
+    return team_name
 
     # NOTE not even needed, reactivate when needed
     # print("Getting Tasks for saved lists...")

@@ -33,11 +33,12 @@ def import_data(modeladmin, request, queryset):
         print("==========================================")
         print("Importing form inside admin panel...")
         print("==========================================")
-        u.import_teams_data(obj.clickup_id)
+        team_name = u.import_teams_data(obj.clickup_id)
         print("==========================================")
         print("Done importing from inside admin panel...")
         print("==========================================")
         obj.is_imported = True
+        obj.name = team_name
         obj.save()
 
 
