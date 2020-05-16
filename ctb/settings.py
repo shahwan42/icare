@@ -16,13 +16,6 @@ import environ
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-sentry_sdk.init(
-    dsn="https://1bddd494aace428789fc5877e718a224@o393606.ingest.sentry.io/5242938",
-    integrations=[DjangoIntegration()],
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True,
-)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,8 +25,8 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-if env("DEBUG"):
-    environ.Env.read_env()
+# if os.getenv("READ_ENV"):
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -43,6 +36,14 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
+if not DEBUG:
+    sentry_sdk.init(
+        dsn="https://1bddd494aace428789fc5877e718a224@o393606.ingest.sentry.io/5242938",
+        integrations=[DjangoIntegration()],
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+    )
 
 ALLOWED_HOSTS = [
     "localhost",
