@@ -7,21 +7,25 @@ from django.views.generic import View
 from django.http.response import (
     Http404,
     HttpResponseNotAllowed,
+    HttpResponseBadRequest,
     JsonResponse,
 )
 
-from .models import CSpace, CList, CTask
+from .models import CSpace, CFolder, CList, CTask
 from . import utils as u, payloads as p
 from .forms import NewTaskForm
 
 
-class NewTask(View):
+class NewTaskInSpace(View):
+    """DEPRECATED
+    Create a new task within a Space"""
+
     form_class = NewTaskForm
     template_name = "core/new_task.html"
 
     def get(self, request, *args, **kwargs):
         space_id = kwargs.get("space_id")
-        qs = CSpace.objects.filter(c_id=space_id)
+        qs = CSpace.objects.filter(c_id=space_id, is_active=True)
         if not qs.exists():
             raise Http404
 
@@ -50,6 +54,62 @@ class NewTask(View):
         if not qs.exists():
             raise Http404
         c_list = qs.first()
+
+        # save task representation locally after making sure it's created
+        if remote_task:
+            CTask.objects.create(
+                c_id=remote_task.get("id"),
+                c_json_res=remote_task,
+                name=remote_task.get("name"),
+                description=remote_task.get("description"),
+                c_list=c_list,
+                is_active=True,
+                user=request.user,
+                status=remote_task.get("status").get("status"),
+            )
+
+        return redirect(reverse("new_task_success"))
+
+
+def get_folder_from_kwargs(kwargs):
+    folder_id = kwargs.get("folder_id")
+    qs = CFolder.objects.filter(c_id=folder_id, is_active=True)
+    if not qs.exists():
+        raise Http404
+    folder = qs.first()
+    return folder
+
+
+class NewTask(View):
+    """Create a new task within a folder"""
+
+    form_class = NewTaskForm
+    template_name = "core/new_task.html"
+
+    def get(self, request, *args, **kwargs):
+        folder = get_folder_from_kwargs(kwargs)
+        form = NewTaskForm(folder=folder)
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            raise HttpResponseNotAllowed
+
+        folder = get_folder_from_kwargs(kwargs)
+        form = NewTaskForm(request.POST, folder=folder)
+
+        if form.is_valid():
+            cd = form.cleaned_data
+            name = cd.get("name")
+            description = cd.get("description")
+            c_list = cd.get("c_list")
+        else:
+            return HttpResponseBadRequest("Invalid data")
+
+        # create new task on clickup
+        remote_task = u.create_task(
+            c_list.c_id, p.create_task_payload(name, description)
+        )
 
         # save task representation locally after making sure it's created
         if remote_task:

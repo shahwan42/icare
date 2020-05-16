@@ -31,7 +31,8 @@ urlpatterns = [
         TemplateView.as_view(template_name="users/profile.html"),
         name="user_profile",
     ),
-    path("new_task/<int:space_id>", NewTask.as_view(), name="new_task"),
+    # path("new_task_space/<int:space_id>", NewTaskInSpace.as_view(), name="new_task_space"),
+    path("new_task/<int:folder_id>", NewTask.as_view(), name="new_task"),
     path(
         "new_task/success",
         TemplateView.as_view(template_name="core/new_task_success.html"),
