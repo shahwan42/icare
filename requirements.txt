@@ -1,6 +1,7 @@
 # Third-parties
 requests==2.23.0
 pyclickup==0.1.4
+whitenoise==5.0.1
 
 # django
 Django==2.2.12
