@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.forms import TextInput, Textarea
 from django.db import models
 from .models import Team, Folder, List, Task, Webhook  # , Space
+from . import utils as u
 
 
 class ListInline(admin.TabularInline):
@@ -27,8 +28,25 @@ class TaskInline(admin.TabularInline):
     )
 
 
+def import_data(modeladmin, request, queryset):
+    for obj in queryset:
+        print("==========================================")
+        print("Importing form inside admin panel...")
+        print("==========================================")
+        u.import_teams_data(obj.clickup_id)
+        print("==========================================")
+        print("Done importing from inside admin panel...")
+        print("==========================================")
+        obj.is_imported = True
+        obj.save()
+
+
+import_data.short_description = "Import team's data"
+
+
 class TeamAdmin(admin.ModelAdmin):
     list_display = ["clickup_id", "name", "is_active"]
+    actions = [import_data]
 
 
 class SpaceAdmin(admin.ModelAdmin):

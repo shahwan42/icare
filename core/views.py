@@ -121,7 +121,7 @@ class NewTask(View):
                 clickup_id=remote_task.get("id"),
                 created_json=remote_task,
                 name=remote_task.get("name"),
-                description=remote_task.get("description"),
+                description=description,
                 _list=_list,
                 is_active=True,
                 user=request.user,

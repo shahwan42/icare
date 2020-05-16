@@ -29,9 +29,13 @@ class Team(models.Model):
     clickup_id = models.PositiveIntegerField(_("ClickUp ID"), unique=True)
     name = models.CharField(_("name"), max_length=255)
     is_active = models.BooleanField(_("is active?"), default=True)
+    is_imported = models.BooleanField(_("is imported?"), default=False)
 
     def __str__(self):
         return self.name
+
+    def import_data(self):
+        pass
 
 
 class Space(Entity):
