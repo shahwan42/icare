@@ -11,7 +11,7 @@ from django.http.response import (
     JsonResponse,
 )
 
-from .models import CSpace, CFolder, CList, CTask
+from .models import Space, Folder, List, Task
 from . import utils as u, payloads as p
 from .forms import NewTaskForm
 
@@ -25,7 +25,7 @@ class NewTaskInSpace(View):
 
     def get(self, request, *args, **kwargs):
         space_id = kwargs.get("space_id")
-        qs = CSpace.objects.filter(c_id=space_id, is_active=True)
+        qs = Space.objects.filter(clickup_id=space_id, is_active=True)
         if not qs.exists():
             raise Http404
 
@@ -35,7 +35,7 @@ class NewTaskInSpace(View):
             for clist in folder.lists.filter(is_active=True):
                 lists.append(clist)
 
-        form = NewTaskForm([(c_list.c_id, c_list.name) for c_list in lists])
+        form = NewTaskForm([(_list.clickup_id, _list.name) for _list in lists])
 
         return render(request, self.template_name, {"form": form})
 
@@ -45,24 +45,24 @@ class NewTaskInSpace(View):
 
         name = request.POST.get("name")
         description = request.POST.get("description")
-        c_list_id = request.POST.get("c_list")
+        _list_id = request.POST.get("_list")
 
         # create new task on clickup
-        remote_task = u.create_task(c_list_id, p.create_task_payload(name, description))
+        remote_task = u.create_task(_list_id, p.create_task_payload(name, description))
 
-        qs = CList.objects.filter(c_id=str(c_list_id), is_active=True)
+        qs = List.objects.filter(clickup_id=str(_list_id), is_active=True)
         if not qs.exists():
             raise Http404
-        c_list = qs.first()
+        _list = qs.first()
 
         # save task representation locally after making sure it's created
         if remote_task:
-            CTask.objects.create(
-                c_id=remote_task.get("id"),
-                c_json_res=remote_task,
+            Task.objects.create(
+                clickup_id=remote_task.get("id"),
+                created_json=remote_task,
                 name=remote_task.get("name"),
                 description=remote_task.get("description"),
-                c_list=c_list,
+                _list=_list,
                 is_active=True,
                 user=request.user,
                 status=remote_task.get("status").get("status"),
@@ -73,7 +73,7 @@ class NewTaskInSpace(View):
 
 def get_folder_from_kwargs(kwargs):
     folder_id = kwargs.get("folder_id")
-    qs = CFolder.objects.filter(c_id=folder_id, is_active=True)
+    qs = Folder.objects.filter(clickup_id=folder_id, is_active=True)
     if not qs.exists():
         raise Http404
     folder = qs.first()
@@ -102,24 +102,27 @@ class NewTask(View):
             cd = form.cleaned_data
             name = cd.get("name")
             description = cd.get("description")
-            c_list = cd.get("c_list")
+            due_date = cd.get("due_date")
+            _list = cd.get("_list")
         else:
             return HttpResponseBadRequest("Invalid data")
 
+        # breakpoint()
         clickup_description = f"{description}\n\n user's email: {request.user.email}\n"
         # create new task on clickup
         remote_task = u.create_task(
-            c_list.c_id, p.create_task_payload(name, clickup_description)
+            _list.clickup_id,
+            p.create_task_payload(name, clickup_description, due_date=due_date),
         )
 
         # save task representation locally after making sure it's created
         if remote_task:
-            CTask.objects.create(
-                c_id=remote_task.get("id"),
-                c_json_res=remote_task,
+            Task.objects.create(
+                clickup_id=remote_task.get("id"),
+                created_json=remote_task,
                 name=remote_task.get("name"),
                 description=remote_task.get("description"),
-                c_list=c_list,
+                _list=_list,
                 is_active=True,
                 user=request.user,
                 status=remote_task.get("status").get("status"),
@@ -144,12 +147,17 @@ class TaskUpdatedWebhook(View):
                 return JsonResponse(status=400)
 
             print(remote_task)
-            qs = CTask.objects.filter(c_id=remote_task.get("task_id"))
+            history_items = remote_task.get("history_items")
+
+            qs = Task.objects.filter(clickup_id=remote_task.get("task_id"))
             if qs.exists():
                 task = qs.first()
-                task.c_update_json_res = remote_task
-                task.status = (
-                    remote_task.get("history_items")[0].get("after").get("status")
-                )
+                task.updated_json = remote_task
+
+                if len(history_items) > 0:
+                    # update status
+                    if history_items[0].get("field") == "status":
+                        task.status = history_items[0].get("after").get("status")
+
                 task.save()
         return JsonResponse({}, status=200)

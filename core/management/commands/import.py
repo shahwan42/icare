@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from core import utils as u
-from core.models import CTeam, CSpace, CFolder, CList, CTask
+from core.models import Team, Space, Folder, List  # , Task
 
 
 class Command(BaseCommand):
@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
         self.stdout.write("Creating team representation...")
         # saving a new team with provided id
-        saved_team, created = CTeam.objects.get_or_create(c_id=team_id)
+        saved_team, created = Team.objects.get_or_create(clickup_id=team_id)
 
         # getting rest of team info
         teams = u.get_teams()
@@ -31,10 +31,12 @@ class Command(BaseCommand):
         self.stdout.write("Saving spaces representations to db...")
         saved_spaces = list()
         for space in spaces:
-            current_space, created = CSpace.objects.get_or_create(c_id=space.get("id"))
+            current_space, created = Space.objects.get_or_create(
+                clickup_id=space.get("id")
+            )
             if created:
                 current_space.is_active = False
-            current_space.c_team = saved_team
+            current_space.team = saved_team
             current_space.name = space.get("name")
             current_space.description = space.get("description")
             current_space.save()
@@ -45,10 +47,10 @@ class Command(BaseCommand):
         self.stdout.write("Getting folders for saved spaces...")
         saved_folders = list()
         for space in saved_spaces:
-            folders = u.get_folders(space.c_id)
+            folders = u.get_folders(space.clickup_id)
             for folder in folders:
-                current_folder, created = CFolder.objects.get_or_create(
-                    c_id=folder.get("id")
+                current_folder, created = Folder.objects.get_or_create(
+                    clickup_id=folder.get("id")
                 )
                 if created:
                     current_folder.is_active = False
@@ -63,10 +65,10 @@ class Command(BaseCommand):
         self.stdout.write("Getting lists for saved folders...")
         saved_lists = list()
         for folder in saved_folders:
-            lists = u.get_lists(folder.c_id)
+            lists = u.get_lists(folder.clickup_id)
             for list_ in lists:
-                current_list, created = CList.objects.get_or_create(
-                    c_id=list_.get("id")
+                current_list, created = List.objects.get_or_create(
+                    clickup_id=list_.get("id")
                 )
                 if created:
                     current_list.is_active = False
@@ -83,12 +85,12 @@ class Command(BaseCommand):
         # self.stdout.write("Getting Tasks for saved lists...")
         # saved_tasks = list()
         # for list_ in saved_lists:
-        #     tasks = u.get_tasks(list_.c_id)
+        #     tasks = u.get_tasks(list_.clickup_id)
         #     for task in tasks:
-        #         current_task, created = CTask.objects.get_or_create(c_id=task.get("id"))
+        #         current_task, created = Task.objects.get_or_create(clickup_id=task.get("id"))
         #         if created:
         #             current_task.is_active = False
-        #         current_task.c_list = list_
+        #         current_task._list = list_
         #         current_task.status = task.get("status")
         #         current_task.name = task.get("name")
         #         current_task.description = task.get("description")

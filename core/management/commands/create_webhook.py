@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from core import utils as u, payloads as p
-from core.models import CTeam, Webhook
+from core.models import Team, Webhook
 
 
 class Command(BaseCommand):
@@ -15,16 +15,16 @@ class Command(BaseCommand):
 
         self.stdout.write("creating webhook to listen for task updates")
         # saving a new team with provided id
-        qs = CTeam.objects.filter(c_id=team_id)
+        qs = Team.objects.filter(clickup_id=team_id)
         if not qs.exists():
             exit("Run Import command first")
 
         saved_team = qs.first()
         breakpoint()
 
-        resp = u.create_webhook(saved_team.c_id, p.create_webhook_payload())
+        resp = u.create_webhook(saved_team.clickup_id, p.create_webhook_payload())
         wh = Webhook.objects.create(
-            c_team=saved_team, c_id=resp.get("id"), c_json_res=resp
+            team=saved_team, clickup_id=resp.get("id"), created_json=resp
         )
 
         self.stdout.write(f"webhook created {wh}")

@@ -4,13 +4,13 @@ from django import forms
 class NewTaskFormInSpaces(forms.Form):
     def __init__(self, list_choices, *args, **kwargs):
         super(NewTaskForm, self).__init__(*args, **kwargs)
-        self.fields["c_list"].choices = list_choices
+        self.fields["_list"].choices = list_choices
 
     name = forms.CharField(label="العنوان")
     description = forms.CharField(
         label="الوصف", widget=forms.Textarea(attrs={"rows": 10, "cols": 30})
     )
-    c_list = forms.ChoiceField(label="الفئة")
+    _list = forms.ChoiceField(label="الفئة")
 
 
 class NewTaskForm(forms.Form):
@@ -20,12 +20,20 @@ class NewTaskForm(forms.Form):
     description = forms.CharField(
         label="الوصف", widget=forms.Textarea(attrs={"rows": 10, "cols": 30})
     )
-    c_list = None
+    due_date = forms.DateField(
+        # input_formats=["%d/%m/%Y"],
+        label="موعد التسليم",
+        required=False,
+        widget=forms.DateInput(
+            format=("%d-%m-%Y"), attrs={"type": "date", "min": "2020-1-1"},
+        ),
+    )
+    _list = None
 
     def __init__(self, *args, **kwargs):
         folder = kwargs.pop("folder")
         super(NewTaskForm, self).__init__(*args, **kwargs)
-        self.fields["c_list"] = forms.ModelChoiceField(
+        self.fields["_list"] = forms.ModelChoiceField(
             label="الفئة",
             queryset=folder.lists.filter(is_active=True),
             empty_label="(default)",

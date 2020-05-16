@@ -1,7 +1,10 @@
+from datetime import datetime
 from django.conf import settings
 
 
-def create_task_payload(name: str, content: str, *args, **kwargs) -> dict:
+def create_task_payload(
+    name: str, content: str, due_date: datetime.date = None, *args, **kwargs
+) -> dict:
     return {
         "name": name,
         "content": content,
@@ -9,7 +12,7 @@ def create_task_payload(name: str, content: str, *args, **kwargs) -> dict:
         # "tags": None,  # ["tag name 1"],
         # "status": "Open",
         # "priority": 3,  # 1 : Urgent, 2 : High, 3 : Normal, 4 : Low.
-        # "due_date": None,  # 1508369194377,
+        "due_date": None,  # 1508369194377,
         # "due_date_time": False,
         # "time_estimate": None,  # 8640000,
         # "start_date": None,  # 1567780450202,
