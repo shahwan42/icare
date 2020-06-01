@@ -67,6 +67,10 @@ class List(Entity):
         Folder, on_delete=models.CASCADE, related_name="lists", null=True, blank=True
     )
 
+    custom_fields_imported = models.BooleanField(
+        _("Custom fields imported?"), default=False
+    )
+
     def __str__(self):
         return self.name
 
@@ -129,3 +133,39 @@ class Webhook(models.Model):
 
     def __repr__(self):
         return f"<Webhook, ClickUp_id: {self.clickup_id}>"
+
+
+class ListCustomField(models.Model):
+    lists = models.ManyToManyField(List, related_name="custom_fields")
+
+    clickup_id = models.CharField(_("ClickUp ID"), max_length=40, unique=True)
+    name = models.CharField(_("name"), max_length=255, null=True)
+    _type = models.CharField(max_length=20)
+    type_config = JSONField(null=True, blank=True)
+    created_json = JSONField(_("ClickUp JSON Response"), null=True, blank=True)
+
+    def __str__(self):
+        return self.name if self.name else self.clickup_id
+
+    def __repr__(self):
+        return f"<ListCustomField, ClickUp_id: {self.clickup_id}>"
+
+
+class TaskCustomField(models.Model):
+    list_custom_field = models.ForeignKey(
+        ListCustomField,
+        on_delete=models.CASCADE,
+        related_name="task_custom_fields",
+        null=True,
+        blank=True,
+    )
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name="custom_fields",
+        null=True,
+        blank=True,
+    )
+
+    def __repr__(self):
+        return f"<TaskCustomField, id: {self.id}>"

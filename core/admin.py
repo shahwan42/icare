@@ -1,10 +1,18 @@
 from django.contrib import admin
 from django.forms import TextInput, Textarea
 from django.db import models
-from .models import Team, Folder, List, Task, Webhook  # , Space
+from .models import (
+    Team,
+    Folder,
+    List,
+    Task,
+    ListCustomField,
+    TaskCustomField,
+)  # , Webhook  # , Space
 from . import utils as u
 
 
+# ============================= Inlines
 class ListInline(admin.TabularInline):
     model = List
     formfield_overrides = {
@@ -28,6 +36,15 @@ class TaskInline(admin.TabularInline):
     )
 
 
+class ListCustomFieldInline(admin.TabularInline):
+    model = List.custom_fields.through
+
+
+class TaskCustomFieldInline(admin.TabularInline):
+    model = TaskCustomField
+
+
+# ============================= Actions
 def import_data(modeladmin, request, queryset):
     for obj in queryset:
         print("==========================================")
@@ -45,6 +62,37 @@ def import_data(modeladmin, request, queryset):
 import_data.short_description = "Import team's data"
 
 
+def import_custom_fields(modeladmin, request, queryset):
+    print("==========================================")
+    print("Importing List Custom Fields form inside admin panel...")
+    print("==========================================")
+    for obj in queryset:
+        print(f"Importing Custom Fields for <List {obj.clickup_id}>")
+        custom_fields = u.get_custom_fields(obj.clickup_id)
+        if len(custom_fields) > 0:
+            for field in custom_fields:
+                lcf, created = ListCustomField.objects.get_or_create(
+                    clickup_id=field.get("id"), _type=field.get("type")
+                )
+                if created:
+                    lcf.name = field.get("name")
+                    lcf.created_json = field
+                    if field.get("type") == "drop_down":
+                        lcf.type_config = field.get("type_config")
+                lcf.lists.add(obj)
+                lcf.save()
+
+            obj.custom_fields_imported = True
+            obj.save()
+    print("==========================================")
+    print("Done importing List Custom Fields from inside admin panel...")
+    print("==========================================")
+
+
+import_custom_fields.short_description = "Import custom fields"
+
+
+# ============================= Admins
 class TeamAdmin(admin.ModelAdmin):
     list_display = ["clickup_id", "name", "is_active"]
     actions = [import_data]
@@ -62,12 +110,20 @@ class FolderAdmin(admin.ModelAdmin):
 
 
 class ListAdmin(admin.ModelAdmin):
-    inlines = (TaskInline,)
+    inlines = (TaskInline, ListCustomFieldInline)
     list_display = ["clickup_id", "name", "is_active"]
-    readonly_fields = ("clickup_id", "name", "description", "folder")
+    readonly_fields = (
+        "clickup_id",
+        "name",
+        "description",
+        "folder",
+        "custom_fields_imported",
+    )
+    actions = [import_custom_fields]
 
 
 class TaskAdmin(admin.ModelAdmin):
+    inlines = (TaskCustomFieldInline,)
     list_display = [
         "clickup_id",
         "name",
@@ -88,6 +144,17 @@ class TaskAdmin(admin.ModelAdmin):
     )
 
 
+class ListCustomFieldAdmin(admin.ModelAdmin):
+    readonly_fields = (
+        "clickup_id",
+        "name",
+        "created_json",
+        "lists",
+        "_type",
+        "type_config",
+    )
+
+
 class WebhookAdmin(admin.ModelAdmin):
     list_display = ["clickup_id", "team"]
     readonly_fields = ("clickup_id", "team", "created_json")
@@ -99,3 +166,4 @@ admin.site.register(Folder, FolderAdmin)
 admin.site.register(List, ListAdmin)
 admin.site.register(Task, TaskAdmin)
 # admin.site.register(Webhook, WebhookAdmin)
+admin.site.register(ListCustomField, ListCustomFieldAdmin)

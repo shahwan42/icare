@@ -86,9 +86,18 @@ def create_task(list_id: int, payload: dict) -> dict:
 
 
 def create_webhook(team_id: int, payload: dict) -> dict:
+    """Create a webhook through which we can receive events"""
     # team_id 2536606
     url = f"{base_url}team/{team_id}/webhook"
     return requests.post(url, json=payload, headers=req_headers).json()
+
+
+def get_custom_fields(list_id: int) -> list:
+    """Get Custom Fields for a list"""
+    # list_id 19430894  or 19454627
+    url = f"{base_url}list/{list_id}/field"
+    fields = requests.get(url, headers=req_headers).json()
+    return fields.get("fields")
 
 
 # =======================================================================
