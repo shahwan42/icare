@@ -154,7 +154,7 @@ class ListCustomField(models.Model):
 class TaskCustomField(models.Model):
     list_custom_field = models.ForeignKey(
         ListCustomField,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="task_custom_fields",
         null=True,
         blank=True,
