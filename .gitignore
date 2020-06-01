@@ -142,3 +142,6 @@ cython_debug/
 
 # static files
 staticfiles/
+
+# ignore this until you migrate for a separate package
+clickup/
