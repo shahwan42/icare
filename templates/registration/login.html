@@ -40,13 +40,15 @@
               <div class="form-group">
                 <p>
                   <span><img src="{% static 'images/icons/users.svg' %}"></span>
-                  <input class="form-control is-invalid" type="email" placeholder="الإيميل" name="username" autofocus>
+                  <input class="form-control is-invalid" type="email" placeholder="الإيميل" name="username" autofocus
+                    required>
                 </p>
               </div>
               <div class="form-group">
                 <p>
                   <span><img src="{% static 'images/icons/lock.svg' %}"></span>
-                  <input class="form-control requiredField" type="password" placeholder="كلمة السر" name="password">
+                  <input class="form-control requiredField" type="password" placeholder="كلمة السر" name="password"
+                    required>
                 </p>
               </div>
               <!-- {{ form|crispy }}   -->
