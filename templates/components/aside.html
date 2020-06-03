@@ -1,0 +1,37 @@
+{% load static %}
+
+<aside class="side-nav">
+  <div class="aside-control">
+    <span class="minus"><i class="fas fa-minus"></i></span>
+    <span class="plus"><i class="fas fa-plus"></i></span>
+  </div>
+  <div class="side_brand">
+    <a href="#" class="brand">
+      <img src="{% static 'images/icons/logo.svg' %}" alt="user_image">
+    </a>
+  </div>
+  <div class="aside_list">
+    <ul>
+      <li class="active">
+        <a href="{% url 'home' %}">
+          <span class="d-icon"><i class="flaticon-house"></i></span> الرئيسية
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'user_tasks' %}">
+          <span class="d-icon"><i class="flaticon-shopping-list"></i></span> طلباتي
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'user_profile' %}">
+          <span class="d-icon"><i class="flaticon-user"></i></span> الصفحة الشخصية
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'logout' %}">
+          <span class="d-icon"><i class="flaticon-logout"></i></span> تسجيل الخروج
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>

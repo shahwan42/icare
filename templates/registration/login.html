@@ -1,13 +1,71 @@
-{% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
 
-{% block title %}Login{% endblock %}
+<head>
+  <!-- Meta Tags-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="abdelhameed-hisham">
+  <meta name="contactNetworkAddress" CONTENT="mahmoudtarek18719@gmail.com">
+  <meta name="contactPhoneNumber" CONTENT="+201121665301">
 
-{% block content %}
-<h2>Login</h2>
-<form method="post" class="col-8 mx-auto">
-  {% csrf_token %}
-  {{ form|crispy }}
-  <button type="submit" class="btn btn-success btn-lg">دخول</button>
-</form>
-{% endblock %}
+  <!-- Site Title-->
+  <title>تسجيل الدخول</title>
+  <!-- Favicon-->
+
+  <!-- Base & Vendors-->
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap-ar.css' %}">
+  <!-- Site Style-->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+  <section class="register-sec text-center">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 col-lg-7 col-xl-8 image-left-back">
+        </div>
+        <div class="col-md-6 col-lg-5 col-xl-4 words-right d-flex align-items-center justify-content-center">
+          <div class="inner">
+            <p class="logo"><a href="#"><img src="{% static 'images/icons/color_logo.svg' %}"></a></p>
+            <h3 class="mb-50px fw-600 ">تسجيل الدخول</h3>
+            <form method="POST" class="login-form">
+              {% csrf_token %}
+              <div class="form-group">
+                <p>
+                  <span><img src="{% static 'images/icons/users.svg' %}"></span>
+                  <input class="form-control is-invalid" type="email" placeholder="الإيميل" name="username" autofocus>
+                </p>
+              </div>
+              <div class="form-group">
+                <p>
+                  <span><img src="{% static 'images/icons/lock.svg' %}"></span>
+                  <input class="form-control requiredField" type="password" placeholder="كلمة السر" name="password">
+                </p>
+              </div>
+              <!-- {{ form|crispy }}   -->
+              <button class="w-100 mb-30px">تسجيل الدخول</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <script src="{% static 'vendor/jquery/jquery.js' %}"></script>
+  <script src="{% static 'vendor/jquery-migrate.js' %}"></script>
+  <script src="{% static 'vendor/popper.js' %}"></script>
+
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/owlCarousel/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

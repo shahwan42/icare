@@ -45,7 +45,7 @@ urlpatterns = [
     path("users/", include("django.contrib.auth.urls")),
 ]
 
-if settings.DEBUG is False:
+if settings.DEBUG is True:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 admin.site.site_header = "CTB Admin"

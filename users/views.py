@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import CustomUserCreationForm
 
@@ -10,7 +11,7 @@ class SignUpView(CreateView):
     template_name = "users/signup.html"
 
 
-class UserTasks(ListView):
+class UserTasks(LoginRequiredMixin, ListView):
     template_name = "users/task_list.html"
 
     def get_queryset(self):
