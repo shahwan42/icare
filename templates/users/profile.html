@@ -1,12 +1,80 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<h1 class="text-center">الصفحة الشخصية</h1>
-<hr>
-{% if user.name %}
-<label for="name">الاسم</label>
-<p id="name">{{ user.name }}</p>
-{% endif %}
-<label for="email">البريد الالكتروني</label>
-<p id="email">{{ user.email }}</p>
+
+<div class="modal fade edit_profile" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">بيانات الحساب الشخصي</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="page_content">
+            <p>
+              <label>الأسم</label>
+              <input type="text" value="{{ request.user.name }}">
+            </p>
+            <div class="row">
+              <div class="col-md-6">
+                <p>
+                  <label>البريد الالكتروني</label>
+                  <input type="email" value="{{ request.user.email }}">
+                </p>
+              </div>
+              <div class="col-md-6">
+                <p>
+                  <label>كلمة المرور</label>
+                  <input type="password" value="كلمة المرور">
+                </p>
+              </div>
+
+            </div>
+            <input type="submit" class="cust_btn" value="حفظ">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="main_panal user_view_page">
+  <div class="decleration_page">
+    <form>
+      <div class="title">
+        <h5>الصفحة الشخصية</h5>
+      </div>
+      <div class="page_content">
+        <h5>بيانات الحساب الشخصي</h5>
+        <p>
+          <label>الاسم</label>
+          <input type="text" value="{{ request.user.name }}" disabled>
+        </p>
+        <div class="row">
+          <div class="col-md-6">
+            <p>
+              <label>البريد الالكتروني</label>
+              <input type="email" value="{{ request.user.email }}" disabled>
+            </p>
+          </div>
+          <div class="col-md-6">
+            <p>
+              <label>كلمة المرور</label>
+              <input type="password" value="كلمة المرور" disabled>
+            </p>
+          </div>
+
+        </div>
+        <a href="#" class="cust_btn" data-toggle="modal" data-target=".edit_profile">تعديل</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 {% endblock content %}

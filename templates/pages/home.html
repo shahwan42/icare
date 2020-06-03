@@ -5,22 +5,24 @@
 
 <div class="main_panal">
   <div class="decleration_page">
-    <form>
-      <div class="decleration_content">
-        <div class="clearfix title main_title">
-          <div class="float-left">
-            <h5>الرئيسية</h5>
-          </div>
-          <div class="float-right">
-            <p class="user_name mb-0">مرحباً<a href="#"> أحمد شهران</a></p>
-          </div>
-        </div>
+    <div class="decleration_content">
 
-        <!-- chose your request's category -->
-        <div class="clearfix title sec_title">
-          <h5>اختر نوع طلبك</h5>
+      <div class="clearfix title main_title">
+        <div class="float-left">
+          <h5>الرئيسية</h5>
         </div>
+        <div class="float-right">
+          <p class="user_name mb-0">مرحباً<a class="ml-2" href="{% url 'user_profile' %}"> {{ request.user.name }}</a>
+          </p>
+        </div>
+      </div>
 
+      <!-- chose your request's category -->
+      <div class="clearfix title sec_title">
+        <h5>اختر نوع طلبك</h5>
+      </div>
+
+      <form>
         <div class="order_type">
           <div class="row">
             <div class="col-md-6 mb-3 mb-md-0">
@@ -50,8 +52,9 @@
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+
+    </div>
   </div>
 </div>
 {% endblock content %}
