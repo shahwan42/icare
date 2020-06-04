@@ -1,29 +1,50 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
-{% if object_list %}
+<div class="main_panal">
+  <div class="decleration_page">
+    <div class="title">
+      <h5>طلباتي</h5>
+    </div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">الحالة</th>
-      <th scope="col">العنوان</th>
-      <th scope="col">الرمز التعريفي</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for object in object_list %}
-    <tr>
-      <td>{{ object.status }}</td>
-      <td>{{ object.name }}</td>
-      <th scope="row">{{ object.clickup_id }}</th>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
+    {% if not object_list %}
+    <div class="page_content">
+      <h5>الطلبات</h5>
+      <div class="responsive_table">
+        <table class="user_table">
+          <thead>
+            <tr>
+              <th>الرمز التعريفي</th>
+              <th>العنوان</th>
+              <th>الحالة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="active">
+              <td>23154</td>
+              <td>باقة 1200</td>
+              <td><a href="#" class="complete cust_btn">تمت</a></td>
+            </tr>
+            <tr>
+              <td>23154</td>
+              <td>باقة 1200</td>
+              <td><a href="#" class="Reviewing cust_btn">جاري المراجعة</a></td>
+            </tr>
+            <tr class="active">
+              <td>23154</td>
+              <td>باقة 1200</td>
+              <td><a href="#" class="hanging cust_btn">معلق</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <h5>ليس لديك طلبات</h5>
+    {% endif %}
+  </div>
+</div>
 
-{% else %}
-<h1 class="text-center display-5">ليس لديك طلبات</h1>
-{% endif %}
 {% endblock content %}
