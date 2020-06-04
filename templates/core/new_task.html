@@ -2,11 +2,102 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h1 class="text-center">طلب جديد</h1>
-<form method="POST" class="mb-5 col-8 mx-auto">{% csrf_token %}
-  {{ form|crispy }}
-  <div class="row">
-    <button type="submit" class="btn btn-lg btn-block btn-success col-6 mx-auto">ارسال</button>
+<div class="main_panal user_view_page">
+
+  <div class="decleration_page">
+    <div class="title" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">الرئيسية</a></li>
+        <li class="breadcrumb-item active" aria-current="page">طلب خدمة جديدة</li>
+      </ol>
+    </div>
+
+    <form method="POST" class="">{% csrf_token %}
+      <!-- <div class="page_content">
+        {{ form|crispy }}
+      </div> -->
+
+      <div class="page_content">
+        {% for field in form %}
+
+        {% if field.name == "due_date" %}
+        <div class="row">
+          <div class="col-6">
+            <p>
+              <label>{{ field.label }} *</label>
+              <input type="date" name="{{ field.name }}" min="2020-1-1" required>
+            </p>
+          </div>
+
+          {% elif field.name == "_list" %}
+          <div class="col-6">
+            <p>
+              <label>{{ field.label }}*</label>
+              <select name="{{ field.name }}">
+                <option value="" selected="">------</option>
+                {% for model_instance in field.field.choices.queryset %}
+                <option value="{{ model_instance.id }}">{{ model_instance.name }}</option>
+                {% endfor %}
+              </select>
+            </p>
+          </div>
+        </div>
+        {% else %}
+        <p>
+          <label>{{ field.label }}*</label>
+          {{ field }}
+        </p>
+        {% endif %}
+
+        {% endfor %}
+      </div>
+
+      <div class="row">
+        <button type="submit" class="btn btn-lg btn-block btn-success col-6 mx-auto">ارسال</button>
+      </div>
+    </form>
+
+    <!-- <form method="POST">
+      {% csrf_token %}
+      <div class="page_content">
+        <h5>طلب جديد</h5>
+        <p>
+          <label>العنوان</label>
+          <input type="text" placeholder="أحمد كرم بدر" name="name">
+        </p>
+        <p>
+          <label>الوصف</label>
+          <textarea placeholder="أحمد كرم بدر" rows="5" name="description"></textarea>
+        </p>
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <p>
+              <label>موعد التسليم</label>
+              <input type="date" name="due_date" id="">
+              <select name="due_date">
+                <option selected value="">.../.../...</option>
+                <option value="0">15/5/2020</option>
+                <option value="1">15/5/2020</option>
+              </select>
+            </p>
+          </div>
+          <div class="col-md-6">
+            <p>
+              <label>الفئة</label>
+              <select name="_list">
+                <option selected value="">أحمد كرم بدر</option>
+                <option value="0">أحمد كرم بدر</option>
+                <option value="1">أحمد كرم بدر</option>
+              </select>
+            </p>
+          </div>
+
+        </div>
+        <hr>
+        <input value="ارسال" class="cust_btn mt-2" type="submit">
+      </div>
+    </form> -->
   </div>
-</form>
+
+</div>
 {% endblock content %}
