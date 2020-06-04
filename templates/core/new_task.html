@@ -18,13 +18,15 @@
       </div> -->
 
       <div class="page_content">
+        <h5>طلب جديد</h5>
+
         {% for field in form %}
 
         {% if field.name == "due_date" %}
-        <div class="row">
+        <div class="row mb-4">
           <div class="col-6">
             <p>
-              <label>{{ field.label }} *</label>
+              <label>{{ field.label }}</label>
               <input type="date" name="{{ field.name }}" min="2020-1-1" required>
             </p>
           </div>
@@ -32,7 +34,7 @@
           {% elif field.name == "_list" %}
           <div class="col-6">
             <p>
-              <label>{{ field.label }}*</label>
+              <label>{{ field.label }} *</label>
               <select name="{{ field.name }}">
                 <option value="" selected="">------</option>
                 {% for model_instance in field.field.choices.queryset %}
@@ -44,17 +46,20 @@
         </div>
         {% else %}
         <p>
-          <label>{{ field.label }}*</label>
+          <label>{{ field.label }} *</label>
           {{ field }}
         </p>
         {% endif %}
 
         {% endfor %}
+
+        <hr>
+        <input value="ارسال" class="cust_btn mt-2" type="submit">
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <button type="submit" class="btn btn-lg btn-block btn-success col-6 mx-auto">ارسال</button>
-      </div>
+      </div> -->
     </form>
 
     <!-- <form method="POST">

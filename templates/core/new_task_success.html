@@ -1,10 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="text-success mb-3">تم ارسال طلبك بنجاح</h1>
+<div class="main_panal user_view_page">
 
-<p>
-  <a href="{% url 'home' %}" class="btn btn-outline-primary">طلب جديد؟</a>
-</p>
+  <div class="decleration_page">
+    <div class="title" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">الرئيسية</a></li>
+        <li class="breadcrumb-item active" aria-current="page">طلب خدمة جديدة</li>
+      </ol>
+    </div>
 
+    <div class="page_content">
+      <h5>عملية ناجحة</h5>
+      <div class="success_message">
+        <h4 class="mb-0 text-success">تم ارسال طلبك بنجاح ...</h4>
+        <p>
+          <span><i class="fas fa-plus"></i></span>
+          <a href="{% url 'home' %}">طلب جديد </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}

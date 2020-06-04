@@ -9,8 +9,8 @@
       <h5>طلباتي</h5>
     </div>
 
-    {% if not object_list %}
     <div class="page_content">
+      {% if object_list %}
       <h5>الطلبات</h5>
       <div class="responsive_table">
         <table class="user_table">
@@ -22,7 +22,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="active">
+            <!-- <tr class="active">
               <td>23154</td>
               <td>باقة 1200</td>
               <td><a href="#" class="complete cust_btn">تمت</a></td>
@@ -36,14 +36,27 @@
               <td>23154</td>
               <td>باقة 1200</td>
               <td><a href="#" class="hanging cust_btn">معلق</a></td>
+            </tr> -->
+            {% for obj in object_list %}
+            <tr>
+              <td>{{ obj.clickup_id }}</td>
+              <td>{{ obj.name }}</td>
+              <td><a href="" class="complete cust_btn">{{ obj.status }}</a></td>
             </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
+      {% else %}
+      <div class="success_message">
+        <h4 class="mb-0">ليس لديك أي طلبات ...</h4>
+        <p>
+          <span><i class="fas fa-plus"></i></span>
+          <a href="{% url 'home' %}">طلب جديد </a>
+        </p>
+      </div>
+      {% endif %}
     </div>
-    {% else %}
-    <h5>ليس لديك طلبات</h5>
-    {% endif %}
   </div>
 </div>
 
