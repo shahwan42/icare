@@ -22,17 +22,13 @@ from django.urls import path, include
 
 from pages.views import Home
 from core.views import NewTask, TaskUpdatedWebhook
-from users.views import UserTasks
+from users.views import UserTasks, Profile
 
 urlpatterns = [
     path("", Home.as_view(), name="home"),
     path("task_updated", TaskUpdatedWebhook.as_view(), name="task_updated"),
     path("user_tasks", UserTasks.as_view(), name="user_tasks"),
-    path(
-        "user_profile",
-        TemplateView.as_view(template_name="users/profile.html"),
-        name="user_profile",
-    ),
+    path("user_profile/<int:pk>", Profile.as_view(), name="user_profile",),
     # path("new_task_space/<int:space_id>", NewTaskInSpace.as_view(), name="new_task_space"),
     path("new_task/<int:folder_id>", NewTask.as_view(), name="new_task"),
     path(

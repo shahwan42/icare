@@ -13,13 +13,26 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="POST">{% csrf_token %}
           <div class="page_content">
+            {% for field in form %}
+            {% if field.name == "name" %}
             <p>
-              <label>الأسم</label>
-              <input type="text" value="{{ request.user.name }}">
+              <label>الاسم</label>
+              <input type="text" value="{{ request.user.name }}" name="{{ field.name }}">
             </p>
-            <div class="row">
+            {% endif %}
+            {% endfor %}
+
+            {% for field in form %}
+            {% if field.name == "email" %}
+            <p>
+              <label>البريد الالكتروني</label>
+              <input type="email" value="{{ request.user.email }}" name="{{ field.name }}">
+            </p>
+            {% endif %}
+            {% endfor %}
+            <!-- <div class="row">
               <div class="col-md-6">
                 <p>
                   <label>البريد الالكتروني</label>
@@ -33,7 +46,7 @@
                 </p>
               </div>
 
-            </div>
+            </div> -->
             <input type="submit" class="cust_btn" value="حفظ">
           </div>
         </form>
@@ -51,17 +64,27 @@
       </div>
       <div class="page_content">
         <h5>بيانات الحساب الشخصي</h5>
+        {% for field in form %}
+        {% if field.name == "name" %}
         <p>
           <label>الاسم</label>
           <input type="text" value="{{ request.user.name }}" disabled>
         </p>
+        {% endif %}
+        {% endfor %}
+
         <div class="row">
+          {% for field in form %}
+          {% if field.name == "email" %}
           <div class="col-md-6">
             <p>
               <label>البريد الالكتروني</label>
               <input type="email" value="{{ request.user.email }}" disabled>
             </p>
           </div>
+          {% endif %}
+          {% endfor %}
+
           <div class="col-md-6">
             <p>
               <label>كلمة المرور</label>

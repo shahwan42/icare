@@ -23,7 +23,11 @@
         </a>
       </li>
       <li class="{% if request.resolver_match.url_name == 'user_profile' %}active{% endif %}">
-        <a href="{% url 'user_profile' %}">
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'user_profile' request.user.pk %}">
+      {% else %}
+        <a href="{% url 'login' %}">
+      {% endif %}
           <span class="d-icon"><i class="flaticon-user"></i></span> الصفحة الشخصية
         </a>
       </li>

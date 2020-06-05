@@ -11,10 +11,13 @@
         <div class="float-left">
           <h5>الرئيسية</h5>
         </div>
+        {% if request.user.is_authenticated %}
         <div class="float-right">
-          <p class="user_name mb-0">مرحباً<a class="ml-2" href="{% url 'user_profile' %}"> {{ request.user.name }}</a>
+          <p class="user_name mb-0">مرحباً<a class="ml-2" href="{% url 'user_profile' request.user.pk %}">
+              {{ request.user.name }}</a>
           </p>
         </div>
+        {% endif %}
       </div>
 
       <!-- chose your request's category -->

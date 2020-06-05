@@ -1,3 +1,4 @@
+from django.shortcuts import reverse
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
@@ -67,3 +68,6 @@ class CustomUser(AbstractUser):
         if self.name:
             name_list = self.name.split(" ")
             return name_list[0]
+
+    def get_absolute_url(self):
+        return reverse("user_profile", kwargs={"pk": self.pk})
