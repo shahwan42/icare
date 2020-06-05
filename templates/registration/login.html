@@ -35,8 +35,25 @@
           <div class="inner">
             <p class="logo"><a href="#"><img src="{% static 'images/icons/color_logo.svg' %}"></a></p>
             <h3 class="mb-50px fw-600 ">تسجيل الدخول</h3>
-            <form method="POST" class="login-form">
-              {% csrf_token %}
+            <form method="POST" class="login-form">{% csrf_token %}
+              {% if form.errors %}
+              <!-- {% for field in form %}
+              {% for error in field.errors %}
+              <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+              </div>
+              {% endfor %}
+              {% endfor %} -->
+              <!-- {% for error in form.non_field_errors %} -->
+              <div class="alert alert-danger">
+                <!-- <strong>{{ error|escape }}</strong> -->
+                <strong>يرجى إدخال عنوان بريد إلكتروني وكلمة مرور صحيحين. لاحظ أن كلا الحقلين قد يكونان حساسين لحالة
+                  الأحرف.
+                </strong>
+              </div>
+              <!-- {% endfor %} -->
+              {% endif %}
+
               <div class="form-group">
                 <p>
                   <span><img src="{% static 'images/icons/users.svg' %}"></span>

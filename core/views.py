@@ -1,6 +1,7 @@
 import json
 
 import logging
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -83,7 +84,7 @@ def get_folder_from_kwargs(kwargs):
     return folder
 
 
-class NewTask(View):
+class NewTask(LoginRequiredMixin, View):
     """Create a new task within a folder"""
 
     form_class = NewTaskForm
