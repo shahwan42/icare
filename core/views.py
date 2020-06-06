@@ -114,12 +114,12 @@ class NewTask(LoginRequiredMixin, View):
         # breakpoint()
 
         clickup_description = f"{description}\n\n user's email: {request.user.email}\n"
+        due_date = int(due_date.timestamp() * 1000) if due_date else None
+
         # create new task on clickup
         remote_task = u.create_task(
             _list.clickup_id,
-            p.create_task_payload(
-                name, clickup_description, due_date=int(due_date.timestamp() * 1000),
-            ),
+            p.create_task_payload(name, clickup_description, due_date=due_date,),
         )
 
         # save task representation locally after making sure it's created
