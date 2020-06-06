@@ -71,9 +71,16 @@
           <input type="text" value="{{ request.user.name }}" disabled>
         </p>
         {% endif %}
+        {% if field.name == "email" %}
+
+        <p>
+          <label>البريد الالكتروني</label>
+          <input type="email" value="{{ request.user.email }}" disabled>
+        </p>
+        {% endif %}
         {% endfor %}
 
-        <div class="row">
+        <!-- <div class="row">
           {% for field in form %}
           {% if field.name == "email" %}
           <div class="col-md-6">
@@ -92,11 +99,15 @@
             </p>
           </div>
 
+        </div> -->
+        <div class="row d-flex justify-content-between px-3">
+          <a href="#" class="cust_btn" data-toggle="modal" data-target=".edit_profile">تعديل</a>
+          <a href="{% url 'password_change' %}" class="text-primary mt-3">تغيير كلمة المرور</a>
         </div>
-        <a href="#" class="cust_btn" data-toggle="modal" data-target=".edit_profile">تعديل</a>
       </div>
     </form>
   </div>
+
 </div>
 
 

@@ -22,13 +22,11 @@ from django.urls import path, include
 
 from pages.views import Home
 from core.views import NewTask, TaskUpdatedWebhook
-from users.views import UserTasks, Profile
+from users.views import UserTasks, Profile, ChangePassword
 
 urlpatterns = [
     path("", Home.as_view(), name="home"),
     path("task_updated", TaskUpdatedWebhook.as_view(), name="task_updated"),
-    path("user_tasks", UserTasks.as_view(), name="user_tasks"),
-    path("user_profile/<int:pk>", Profile.as_view(), name="user_profile",),
     # path("new_task_space/<int:space_id>", NewTaskInSpace.as_view(), name="new_task_space"),
     path("new_task/<int:folder_id>", NewTask.as_view(), name="new_task"),
     path(
@@ -38,6 +36,9 @@ urlpatterns = [
     ),
     path("admin/", admin.site.urls),
     # path("users/", include("users.urls")),
+    path("users/tasks", UserTasks.as_view(), name="user_tasks"),
+    path("users/profile/<int:pk>", Profile.as_view(), name="user_profile"),
+    path("users/password_change/", ChangePassword.as_view(), name="password_change"),
     path("users/", include("django.contrib.auth.urls")),
 ]
 
