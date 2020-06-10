@@ -52,6 +52,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "clickup-tasks-board.herokuapp.com",
     ".ngrok.io",
+    ".wasly.co",
 ]
 
 
@@ -160,7 +161,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 
 AUTH_USER_MODEL = "users.CustomUser"
