@@ -54,6 +54,7 @@ ALLOWED_HOSTS = [
     ".ngrok.io",
     ".wasly.co",
     "8.8.8.8",
+    "test-eg.gq",
 ]
 
 
