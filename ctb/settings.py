@@ -53,6 +53,7 @@ ALLOWED_HOSTS = [
     "clickup-tasks-board.herokuapp.com",
     ".ngrok.io",
     ".wasly.co",
+    "8.8.8.8",
 ]
 
 
