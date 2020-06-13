@@ -1,4 +1,4 @@
-# Copy to /etc/systemd/system/gunicorn_pw.socket
+# Copy to /etc/systemd/system/gunicorn_ctb.socket
 
 [Unit]
 Description=gunicorn socket for ctb project
