@@ -8,11 +8,9 @@ https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 """
 
 import os
-import sys
 
 from django.core.wsgi import get_wsgi_application
 
-sys.path.append("/home/ctb/public_html/")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ctb.settings")
 
 application = get_wsgi_application()
