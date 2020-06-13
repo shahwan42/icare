@@ -47,15 +47,7 @@ if not DEBUG:
         send_default_pii=True,
     )
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "clickup-tasks-board.herokuapp.com",
-    ".ngrok.io",
-    ".wasly.co",
-    "8.8.8.8",
-    "test-eg.gq",
-]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
 
 
 # Application definition
