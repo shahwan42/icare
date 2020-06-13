@@ -7,14 +7,11 @@ class Command(BaseCommand):
     help = "Create webhook for a certain team"
 
     def add_arguments(self, parser):
-        parser.add_argument("--team_id", nargs="+", type=int)
+        parser.add_argument("--team_id", nargs="+", type=int, required=True)
 
     def handle(self, *args, **options):
         # starting point
         team_id = options["team_id"][0]
-
-        if not team_id:
-            exit("Enter the team id using --team_id=<your-team-id>")
 
         self.stdout.write("creating webhook to listen for task updates")
         # saving a new team with provided id

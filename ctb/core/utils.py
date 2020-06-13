@@ -126,7 +126,7 @@ def import_teams_data(team_id: int):
     print("Getting Spaces...")
     spaces = get_spaces(team_id)
     print("Saving spaces representations to db...")
-    saved_spaces = list()
+    saved_spaces = []
     for space in spaces:
         current_space, created = Space.objects.get_or_create(clickup_id=space.get("id"))
         if created:
@@ -140,7 +140,7 @@ def import_teams_data(team_id: int):
 
     # Import Folders for all imported spaces
     print("Getting folders for saved spaces...")
-    saved_folders = list()
+    saved_folders = []
     for space in saved_spaces:
         folders = get_folders(space.clickup_id)
         for folder in folders:
@@ -158,7 +158,7 @@ def import_teams_data(team_id: int):
 
     # Import Lists for all imported folders
     print("Getting lists for saved folders...")
-    saved_lists = list()
+    saved_lists = []
     for folder in saved_folders:
         lists = get_lists(folder.clickup_id)
         for list_ in lists:

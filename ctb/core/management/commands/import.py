@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = "Import Spaces, Folders, Lists from ClickUp"
 
     def add_arguments(self, parser):
-        parser.add_argument("--team_id", nargs="+", type=int)
+        parser.add_argument("--team_id", nargs="+", type=int, required=True)
 
     def handle(self, *args, **options):
         # starting point
