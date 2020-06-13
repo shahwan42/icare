@@ -1,0 +1,16 @@
+# Copy to /etc/systemd/system/gunicorn_pw.socket
+
+[Unit]
+Description=gunicorn socket for ctb project
+
+[Socket]
+ListenStream=/run/gunicorn_ctb.sock
+# Our service won't need permissions for the socket, since it
+# inherits the file descriptor by socket activation
+# only the nginx daemon will need access to the socket
+User=www-data
+# Optionally restrict the socket permissions even more.
+# Mode=600
+
+[Install]
+WantedBy=sockets.target

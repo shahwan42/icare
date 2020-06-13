@@ -1,0 +1,25 @@
+# copy to /etc/systemd/system/gunicorn_pw.service
+
+[Unit]
+Description=gunicorn daemon for ctb project
+Requires=gunicorn_ctb.socket
+After=network.target
+
+[Service]
+Type=notify
+# the specific user that our service will run as
+User=as
+Group=as
+# another option for an even more restricted service is
+# DynamicUser=yes
+# see http://0pointer.net/blog/dynamic-users-with-systemd.html
+RuntimeDirectory=gunicorn
+WorkingDirectory=/home/as/personal_website
+ExecStart=/home/as/.virtualenvs/ctb/bin/gunicorn -c /home/as/personal_website/deploy/gunicorn_config.py ctb.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
