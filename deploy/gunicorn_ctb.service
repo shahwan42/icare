@@ -1,4 +1,4 @@
-# copy to /etc/systemd/system/gunicorn_pw.service
+# copy to /etc/systemd/system/gunicorn_ctb.service
 
 [Unit]
 Description=gunicorn daemon for ctb project
