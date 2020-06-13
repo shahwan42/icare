@@ -13,6 +13,9 @@ class Command(BaseCommand):
         # starting point
         team_id = options["team_id"][0]
 
+        if not team_id:
+            exit("Enter the team id using --team_id=<your-team-id>")
+
         self.stdout.write("creating webhook to listen for task updates")
         # saving a new team with provided id
         qs = Team.objects.filter(clickup_id=team_id)
