@@ -15,7 +15,7 @@ Group=as
 # see http://0pointer.net/blog/dynamic-users-with-systemd.html
 RuntimeDirectory=gunicorn
 WorkingDirectory=/home/as/clickup_tasks_board
-ExecStart=/home/as/.virtualenvs/ctb/bin/gunicorn -c /home/as/clickup_tasks_board/deploy/gunicorn_config.py ctb.wsgi
+ExecStart=/home/as/.virtualenvs/ctb/bin/gunicorn -c /home/as/clickup_tasks_board/deploy/gunicorn_config.py project.wsgi
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5

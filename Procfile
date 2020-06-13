@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn ctb.wsgi --log-file -
+web: gunicorn project.wsgi --log-file -

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
-from core import utils as u, payloads as p
-from core.models import Team, Webhook
+from ctb.core import utils as u, payloads as p
+from ctb.core.models import Team, Webhook
 
 
 class Command(BaseCommand):

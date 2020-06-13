@@ -1,4 +1,4 @@
-"""ctb URL Configuration
+"""project URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -19,9 +19,9 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.urls import path, include
 
-from pages.views import Home
-from core.views import NewTask, TaskUpdatedWebhook
-from users.views import UserTasks, Profile, ChangePassword
+from ctb.pages.views import Home
+from ctb.core.views import NewTask, TaskUpdatedWebhook
+from ctb.users.views import UserTasks, Profile, ChangePassword
 
 urlpatterns = [
     path("admin/", admin.site.urls),

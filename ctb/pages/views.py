@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 
-from core.models import Space, Folder
+from ctb.core.models import Space, Folder
 
 
 class HomeWithSpaces(ListView):

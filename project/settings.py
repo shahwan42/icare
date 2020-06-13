@@ -14,7 +14,6 @@ import os
 
 import environ
 import sentry_sdk
-import django_heroku
 
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -40,7 +39,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
 if not DEBUG:
     sentry_sdk.init(
-        dsn="https://1bddd494aace428789fc5877e718a224@o393606.ingest.sentry.io/5242938",
+        dsn="https://4a4299c376af431c90449e7e849f1511@o344310.ingest.sentry.io/5275550",
         integrations=[DjangoIntegration()],
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
@@ -63,9 +62,9 @@ INSTALLED_APPS = [
     "django_extensions",
     "crispy_forms",
     # Local
-    "users.apps.UsersConfig",
-    "pages.apps.PagesConfig",
-    "core.apps.CoreConfig",
+    "ctb.users.apps.UsersConfig",
+    "ctb.pages.apps.PagesConfig",
+    "ctb.core.apps.CoreConfig",
 ]
 
 MIDDLEWARE = [
@@ -78,7 +77,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "ctb.urls"
+ROOT_URLCONF = "project.urls"
 
 TEMPLATES = [
     {
@@ -96,7 +95,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "ctb.wsgi.application"
+WSGI_APPLICATION = "project.wsgi.application"
 
 
 # Database
@@ -149,7 +148,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 
@@ -173,6 +172,3 @@ WEBSITE_URL = env("WEBSITE_URL")
 
 # crispy
 CRISPY_TEMPLATE_PACK = "bootstrap4"
-
-
-django_heroku.settings(locals())
