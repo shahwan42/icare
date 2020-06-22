@@ -27,7 +27,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", Home.as_view(), name="home"),
     path("task_updated", TaskUpdatedWebhook.as_view(), name="task_updated"),
-    # path("new_task_space/<int:space_id>", NewTaskInSpace.as_view(), name="new_task_space"),
     path("new_task/<int:folder_id>", NewTask.as_view(), name="new_task"),
     path(
         "lists/<int:pk>/custom_fields",

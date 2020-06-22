@@ -20,7 +20,6 @@ class Command(BaseCommand):
             exit("Run Import command first")
 
         saved_team = qs.first()
-        # breakpoint()
 
         resp = u.create_webhook(saved_team.clickup_id, p.create_webhook_payload())
         wh = Webhook.objects.create(

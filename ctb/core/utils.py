@@ -177,22 +177,3 @@ def import_teams_data(team_id: int):
     print("Done")
 
     return team_name
-
-    # NOTE not even needed, reactivate when needed
-    # print("Getting Tasks for saved lists...")
-    # saved_tasks = list()
-    # for list_ in saved_lists:
-    #     tasks = get_tasks(list_.clickup_id)
-    #     for task in tasks:
-    #         current_task, created = Task.objects.get_or_create(clickup_id=task.get("id"))
-    #         if created:
-    #             current_task.is_active = False
-    #         current_task._list = list_    # Import Spaces for that team
-    #         current_task.status = task.get("status")
-    #         current_task.name = task.get("name")
-    #         current_task.description = task.get("description")
-    #         current_task.save()
-
-    #         saved_tasks.append(current_task)
-
-    # print(f"{len(saved_tasks)} Tasks in the system")
