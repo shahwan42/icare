@@ -20,7 +20,7 @@ from django.views.generic import TemplateView
 from django.urls import path, include
 
 from ctb.pages.views import Home
-from ctb.core.views import NewTask, TaskUpdatedWebhook
+from ctb.core.views import NewTask, TaskUpdatedWebhook, ListCustomFields
 from ctb.users.views import UserTasks, Profile, ChangePassword
 
 urlpatterns = [
@@ -29,6 +29,11 @@ urlpatterns = [
     path("task_updated", TaskUpdatedWebhook.as_view(), name="task_updated"),
     # path("new_task_space/<int:space_id>", NewTaskInSpace.as_view(), name="new_task_space"),
     path("new_task/<int:folder_id>", NewTask.as_view(), name="new_task"),
+    path(
+        "lists/<int:pk>/custom_fields",
+        ListCustomFields.as_view(),
+        name="list_custom_fields",
+    ),
     path(
         "new_task/success",
         TemplateView.as_view(template_name="core/new_task_success.html"),

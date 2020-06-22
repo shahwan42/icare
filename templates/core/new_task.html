@@ -35,7 +35,7 @@
           <div class="col-6">
             <p>
               <label>{{ field.label }} *</label>
-              <select name="{{ field.name }}">
+              <select name="{{ field.name }}" onchange="getCustomFields()">
                 <option value="" selected="">------</option>
                 {% for model_instance in field.field.choices.queryset %}
                 <option value="{{ model_instance.id }}">{{ model_instance.name }}</option>

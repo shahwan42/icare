@@ -2,7 +2,7 @@ import json
 
 import logging
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
@@ -17,7 +17,7 @@ from .models import Space, Folder, List, Task
 from . import utils as u, payloads as p
 from .forms import NewTaskForm
 
-loger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class NewTaskInSpace(View):
@@ -80,8 +80,7 @@ def get_folder_from_kwargs(kwargs):
     qs = Folder.objects.filter(clickup_id=folder_id, is_active=True)
     if not qs.exists():
         raise Http404
-    folder = qs.first()
-    return folder
+    return qs.first()
 
 
 class NewTask(LoginRequiredMixin, View):
@@ -124,6 +123,7 @@ class NewTask(LoginRequiredMixin, View):
 
         # save task representation locally after making sure it's created
         if remote_task and remote_task.get("err"):
+            logger.error(remote_task)
             return HttpResponseBadRequest("Invalid data")
 
         Task.objects.create(
@@ -138,6 +138,36 @@ class NewTask(LoginRequiredMixin, View):
         )
 
         return redirect(reverse("new_task_success"))
+
+
+class ListCustomFields(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ListCustomFields, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, pk, *args, **kwargs):
+        """Return list of customfields to be filled after selecting
+        a list from the dropdown menu"""
+
+        # breakpoint()
+
+        ls = get_object_or_404(List, pk=pk)
+        custom_fields = ls.custom_fields.all()
+        if not custom_fields.exists():
+            raise Http404("No custom fields found for that list")
+
+        # construct custom fields data
+        fields = []
+        for field in custom_fields:
+            fields.append(
+                {
+                    "clickup_id": field.clickup_id,
+                    "name": field.name,
+                    "type": field._type,
+                    "type_config": field.type_config,
+                }
+            )
+        return JsonResponse({"fields": fields})
 
 
 # ==================== Webhooks
@@ -156,7 +186,7 @@ class TaskUpdatedWebhook(View):
                 return JsonResponse(status=400)
 
             print(remote_task)
-            loger.info(remote_task)
+            logger.info(remote_task)
             history_items = remote_task.get("history_items")
 
             qs = Task.objects.filter(clickup_id=remote_task.get("task_id"))
