@@ -36,7 +36,7 @@
         </div>
         <div class="col-md-6 col-lg-5 col-xl-4 words-right d-flex align-items-center justify-content-center">
           <div class="inner">
-            <p class="logo"><a href="{% url 'home' %}"><img src="{% static 'images/misk_logo.svg.png' %}"></a></p>
+            <p class="logo"><a href="{% url 'home' %}"><img src="{% static 'images/misk_logo.png' %}" alt="Logo"></a></p>
             <h3 class="mb-50px fw-600 ">تسجيل الدخول</h3>
             <form method="POST" class="login-form">{% csrf_token %}
               {% if form.errors %}
