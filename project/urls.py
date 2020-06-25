@@ -29,7 +29,7 @@ urlpatterns = [
     path("task_updated", TaskUpdatedWebhook.as_view(), name="task_updated"),
     path("new_task/<int:folder_id>", NewTask.as_view(), name="new_task"),
     path(
-        "lists/<int:pk>/custom_fields",
+        "lists/<str:clickup_id>/custom_fields",
         ListCustomFields.as_view(),
         name="list_custom_fields",
     ),

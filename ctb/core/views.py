@@ -13,7 +13,7 @@ from django.http.response import (
     JsonResponse,
 )
 
-from .models import Folder, List, Task
+from .models import Folder, List, Task, ListCustomField
 from . import utils as u, payloads as p
 from .forms import NewTaskForm
 
@@ -88,14 +88,20 @@ class ListCustomFields(View):
     def dispatch(self, request, *args, **kwargs):
         return super(ListCustomFields, self).dispatch(request, *args, **kwargs)
 
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request, clickup_id, *args, **kwargs):
         """Return list of customfields to be filled after selecting
         a list from the dropdown menu"""
 
-        ls = get_object_or_404(List, pk=pk)
+        try:
+            ls = List.objects.get(clickup_id=clickup_id)
+        except List.DoesNotExist:
+            return JsonResponse({"message": "List not found"}, status=404)
+
         custom_fields = ls.custom_fields.all()
         if not custom_fields.exists():
-            raise Http404("No custom fields found for that list")
+            return JsonResponse(
+                {"message": "No custom fields found for that list"}, status=404
+            )
 
         # construct custom fields data
         fields = []
@@ -108,7 +114,8 @@ class ListCustomFields(View):
                     "type_config": field.type_config,
                 }
             )
-        return JsonResponse({"fields": fields})
+
+        return JsonResponse({"fields": fields, "message": "List of custom fields"})
 
 
 # ==================== Webhooks
