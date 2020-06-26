@@ -2,7 +2,7 @@ import json
 
 import logging
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
@@ -13,7 +13,7 @@ from django.http.response import (
     JsonResponse,
 )
 
-from .models import Folder, List, Task, ListCustomField
+from .models import Folder, List, Task
 from . import utils as u, payloads as p
 from .forms import NewTaskForm
 
@@ -88,12 +88,12 @@ class ListCustomFields(View):
     def dispatch(self, request, *args, **kwargs):
         return super(ListCustomFields, self).dispatch(request, *args, **kwargs)
 
-    def get(self, request, clickup_id, *args, **kwargs):
+    def get(self, request, pk, *args, **kwargs):
         """Return list of customfields to be filled after selecting
         a list from the dropdown menu"""
 
         try:
-            ls = List.objects.get(clickup_id=clickup_id)
+            ls = List.objects.get(pk=pk)
         except List.DoesNotExist:
             return JsonResponse({"message": "List not found"}, status=404)
 
@@ -115,7 +115,7 @@ class ListCustomFields(View):
                 }
             )
 
-        return JsonResponse({"fields": fields, "message": "List of custom fields"})
+        return JsonResponse({"message": "List of custom fields", "fields": fields})
 
 
 # ==================== Webhooks
