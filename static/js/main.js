@@ -23,6 +23,9 @@ $(document).ready(function () {
     $('#table_id').DataTable();
 });
 
+
+// ========================================= Handle Custom Fields for a new task
+
 function short_text_field(short_text) {
     return `
     <p>
