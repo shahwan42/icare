@@ -1,10 +1,10 @@
-# Copy to /etc/systemd/system/gunicorn_ctb.socket
+# Copy to /etc/systemd/system/gunicorn_icare.socket
 
 [Unit]
-Description=gunicorn socket for ctb project
+Description=gunicorn socket for icare project
 
 [Socket]
-ListenStream=/run/gunicorn_ctb.sock
+ListenStream=/run/gunicorn_icare.sock
 # Our service won't need permissions for the socket, since it
 # inherits the file descriptor by socket activation
 # only the nginx daemon will need access to the socket

@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from ctb.core import utils as u
+from icare.core import utils as u
 
 
 class Command(BaseCommand):

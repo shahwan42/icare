@@ -1,7 +1,7 @@
 import requests
 
 from django.conf import settings
-from ctb.core.models import Team, Space, Folder, List  # , Task
+from icare.core.models import Team, Space, Folder, List  # , Task
 
 access_token = settings.CLICKUP_API_TOKEN
 base_url = settings.CLICKUP_API_URL

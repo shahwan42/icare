@@ -19,9 +19,9 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.urls import path, include
 
-from ctb.pages.views import Home
-from ctb.core.views import NewTask, TaskUpdatedWebhook, ListCustomFields
-from ctb.users.views import UserTasks, Profile, ChangePassword
+from icare.pages.views import Home
+from icare.core.views import NewTask, TaskUpdatedWebhook, ListCustomFields
+from icare.users.views import UserTasks, Profile, ChangePassword
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -47,7 +47,7 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-admin.site.site_header = "CTB Admin"
-admin.site.site_title = "CTB Admin Portal"
-admin.site.index_title = "Welcome to CTB Portal"
+admin.site.site_header = "I Care Admin"
+admin.site.site_title = "I Care Admin Portal"
+admin.site.index_title = "Welcome to I Care Portal"
 admin.site.unregister(Group)
