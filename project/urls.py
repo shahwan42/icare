@@ -43,6 +43,7 @@ urlpatterns = [
     path("users/profile/<int:pk>", Profile.as_view(), name="user_profile"),
     path("users/password_change/", ChangePassword.as_view(), name="password_change"),
     path("users/", include("django.contrib.auth.urls")),
+    path("api-auth/", include("rest_framework.urls")),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

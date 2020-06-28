@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     # Third-party
     "django_extensions",
     "crispy_forms",
+    "rest_framework",
     # Local
     "icare.users.apps.UsersConfig",
     "icare.pages.apps.PagesConfig",
