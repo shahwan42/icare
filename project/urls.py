@@ -27,7 +27,7 @@ from icare.users.endpoints import UserRU
 
 
 api_urls = [
-    path("api/users/<int:pk>/", UserRU.as_view(), name="user_ru"),
+    path("api/users/<int:pk>", UserRU.as_view(), name="user_ru"),
 ]
 
 

@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "crispy_forms",
     "rest_framework",
+    "corsheaders",
     # Local
     "icare.users.apps.UsersConfig",
     "icare.pages.apps.PagesConfig",
@@ -71,6 +72,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -173,3 +175,6 @@ WEBSITE_URL = env("WEBSITE_URL")
 
 # crispy
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+# corsheaders
+CORS_ORIGIN_ALLOW_ALL = True
