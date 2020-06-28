@@ -19,9 +19,17 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.urls import path, include
 
+
 from icare.pages.views import Home
 from icare.core.views import NewTask, TaskUpdatedWebhook, ListCustomFields
 from icare.users.views import UserTasks, Profile, ChangePassword
+from icare.users.endpoints import UserRU
+
+
+api_urls = [
+    path("api/users/<int:pk>/", UserRU.as_view(), name="user_ru"),
+]
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -44,7 +52,7 @@ urlpatterns = [
     path("users/password_change/", ChangePassword.as_view(), name="password_change"),
     path("users/", include("django.contrib.auth.urls")),
     path("api-auth/", include("rest_framework.urls")),
-]
+] + api_urls
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
