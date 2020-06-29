@@ -4,7 +4,9 @@ from rest_framework.test import APITestCase, APIClient
 from model_bakery import baker
 
 
-class TestUserDR(APITestCase):
+class TestUserRU(APITestCase):
+    """Test User Retreive/Update/Partial Update"""
+
     def setUp(self):
         self.client = APIClient()
         self.user1 = baker.make("users.CustomUser")
@@ -72,13 +74,34 @@ class TestUserDR(APITestCase):
 
 class TestChangePassword(APITestCase):
     def setUp(self):
-        pass
+        self.client = APIClient()
+        self.url = reverse("change_password")
+
+        self.user1 = baker.make("users.CustomUser")
+        self.user1.set_password("Awesome1")
+        self.user1.save()
+
+        self.payload = {
+            "old_password": "Awesome1",
+            "new_password": "Awesome2",
+        }
 
     def test_change_password(self):
-        pass
+        self.assertTrue(self.user1.check_password("Awesome1"))
+
+        self.client.force_authenticate(self.user1)
+        resp = self.client.put(self.url, self.payload)
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(self.user1.check_password("Awesome2"))
 
     def test_change_password_requires_authentication(self):
+        resp = self.client.put(self.url, self.payload)
+        self.assertEqual(resp.status_code, 403)
+
+
+class TestLogin(APITestCase):
+    def setUp(self):
         pass
 
-    def test_change_password_same_user_only(self):
+    def test_login_creates_api_token(self):
         pass

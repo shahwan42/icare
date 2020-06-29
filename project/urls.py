@@ -23,11 +23,16 @@ from django.urls import path, include
 from icare.pages.views import Home
 from icare.core.views import NewTask, TaskUpdatedWebhook, ListCustomFields
 from icare.users.views import UserTasks, Profile, ChangePassword
-from icare.users.endpoints import UserRU
+from icare.users.endpoints import UserRU, ChangePassword as ChangePasswordAPIView
 
 
 api_urls = [
     path("api/users/<int:pk>", UserRU.as_view(), name="user_ru"),
+    path(
+        "api/users/change_password",
+        ChangePasswordAPIView.as_view(),
+        name="change_password",
+    ),
 ]
 
 
