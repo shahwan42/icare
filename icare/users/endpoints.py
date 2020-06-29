@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView, UpdateAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 from .serializers import UserSerializer, ChangePasswordSerializer
 from .models import CustomUser as User
@@ -44,3 +45,11 @@ class ChangePassword(UpdateAPIView):
 class Register(CreateAPIView):
     serializer_class = UserSerializer
     model = User
+
+
+class Logout(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        request.user.auth_token.delete()
+        return Response()

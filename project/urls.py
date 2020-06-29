@@ -28,12 +28,14 @@ from icare.users.endpoints import (
     UserRU,
     ChangePassword as ChangePasswordAPIView,
     Register,
+    Logout,
 )
 
 
 api_urls = [
     path("api/users/token", views.obtain_auth_token, name="auth_token"),
     path("api/users/register", Register.as_view(), name="user_register"),
+    path("api/users/logout", Logout.as_view(), name="user_logout"),
     path("api/users/<int:pk>", UserRU.as_view(), name="user_ru"),
     path(
         "api/users/change_password",

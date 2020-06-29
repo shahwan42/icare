@@ -1,7 +1,6 @@
 from django.shortcuts import reverse
 from django.test import tag
 from rest_framework.test import APITestCase, APIClient
-from rest_framework.authtoken.models import Token
 from model_bakery import baker
 
 
@@ -13,8 +12,6 @@ class TestUserRU(APITestCase):
         self.client = APIClient()
         self.user1 = baker.make("users.CustomUser")
         self.user2 = baker.make("users.CustomUser")
-        self.token1, _ = Token.objects.get_or_create(user=self.user1)
-        self.token2, _ = Token.objects.get_or_create(user=self.user2)
 
     def url(self, pk):
         return reverse("user_ru", args=[pk])
@@ -27,7 +24,7 @@ class TestUserRU(APITestCase):
         self.assertEqual(resp.data["email"], self.user1.email)
 
     def test_user_detail_with_token(self):
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token1}")
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.user1.auth_token}")
         resp = self.client.get(self.url(self.user1.pk))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], self.user1.name)
@@ -130,7 +127,7 @@ class TestRegister(APITestCase):
         self.client = APIClient()
         self.url = reverse("user_register")
 
-    def test_desired_scenario(self):
+    def test_register_desired_scenario(self):
         resp = self.client.post(
             self.url,
             {
@@ -143,3 +140,18 @@ class TestRegister(APITestCase):
         self.assertEqual(resp.data["email"], "ahmed@shahwan.me")
         self.assertEqual(resp.data["name"], "Ahmed Shahwan")
         self.assertIn("token", resp.data)
+
+
+@tag("logout")
+class TestLogout(APITestCase):
+    def setUp(self):
+        self.user = baker.make("users.CustomUser")
+
+        self.client = APIClient()
+        self.url = reverse("user_logout")
+
+    def test_logout_desired_scenario(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.user.auth_token}")
+
+        resp = self.client.get(self.url)
+        self.assertEqual(resp.status_code, 200)
