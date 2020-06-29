@@ -5,38 +5,37 @@ from model_bakery import baker
 
 
 @tag("user_ru")
-class TestUserRU(APITestCase):
+class TestProfile(APITestCase):
     """Test User Retreive/Update/Partial Update"""
 
     def setUp(self):
-        self.client = APIClient()
         self.user1 = baker.make("users.CustomUser")
         self.user2 = baker.make("users.CustomUser")
 
-    def url(self, pk):
-        return reverse("user_ru", args=[pk])
+        self.client = APIClient()
+        self.url = reverse("user_profile")
 
     def test_user_detail(self):
         self.client.force_authenticate(self.user1)
-        resp = self.client.get(self.url(self.user1.pk))
+        resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], self.user1.name)
         self.assertEqual(resp.data["email"], self.user1.email)
 
     def test_user_detail_with_token(self):
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.user1.auth_token}")
-        resp = self.client.get(self.url(self.user1.pk))
+        resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], self.user1.name)
         self.assertEqual(resp.data["email"], self.user1.email)
 
     def test_user_detail_requires_authentication(self):
-        resp = self.client.get(self.url(self.user1.pk))
+        resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 401)
 
     def test_user_detail_requires_same_user_only(self):
         self.client.force_authenticate(self.user1)
-        resp = self.client.get(self.url(self.user2.pk))
+        resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 403)
 
     def test_update_user_details_put(self):
@@ -46,14 +45,14 @@ class TestUserRU(APITestCase):
             "email": "ahmed@shahwan.me",
             "password": "Awesome1",
         }
-        resp = self.client.put(self.url(self.user1.pk), payload)
+        resp = self.client.put(self.url, payload)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], "Ahmed Shahwan")
         self.assertEqual(resp.data["email"], "ahmed@shahwan.me")
 
     def test_update_user_details_patch(self):
         self.client.force_authenticate(self.user1)
-        resp = self.client.patch(self.url(self.user1.pk), {"name": "New Name"})
+        resp = self.client.patch(self.url, {"name": "New Name"})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], "New Name")
         self.assertEqual(resp.data["email"], self.user1.email)
@@ -63,27 +62,27 @@ class TestUserRU(APITestCase):
             "name": "Ahmed Shahwan",
             "email": "ahmed@shahwan.me",
         }
-        resp = self.client.put(self.url(self.user1.pk), payload)
+        resp = self.client.put(self.url, payload)
         self.assertEqual(resp.status_code, 401)
 
-        resp = self.client.patch(self.url(self.user1.pk), {"name": "New Name"})
+        resp = self.client.patch(self.url, {"name": "New Name"})
         self.assertEqual(resp.status_code, 401)
 
     def test_update_user_details_same_user_only(self):
         self.client.force_authenticate(self.user1)
-        resp = self.client.patch(self.url(self.user2.pk), {"name": "New Name"})
+        resp = self.client.patch(self.url, {"name": "New Name"})
         self.assertEqual(resp.status_code, 403)
 
 
-@tag("change_password")
-class TestChangePassword(APITestCase):
+@tag("password")
+class TestPassword(APITestCase):
     def setUp(self):
-        self.client = APIClient()
-        self.url = reverse("change_password")
-
         self.user = baker.make("users.CustomUser")
         self.user.set_password("Awesome1")
         self.user.save()
+
+        self.client = APIClient()
+        self.url = reverse("user_password")
 
         self.payload = {
             "old_password": "Awesome1",
@@ -103,15 +102,15 @@ class TestChangePassword(APITestCase):
         self.assertEqual(resp.status_code, 401)
 
 
-@tag("auth_token")
-class TestAuthToken(APITestCase):
+@tag("token")
+class TestToken(APITestCase):
     def setUp(self):
         self.user = baker.make("users.CustomUser")
         self.user.set_password("Awesome1")
         self.user.save()
 
         self.client = APIClient()
-        self.url = reverse("auth_token")
+        self.url = reverse("user_token")
 
     def test_login_creates_api_token(self):
         resp = self.client.post(
@@ -155,3 +154,18 @@ class TestLogout(APITestCase):
 
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 200)
+
+
+# @tag("requests")
+# class TestRequests(APITestCase):
+#     def setUp(self):
+#         self.user = baker.make("users.CustomUser")
+
+#         self.client = APIClient()
+#         self.url = reverse("user_requests")
+
+#     def test_list_all_users_requests(self):
+#         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.user.auth_token}")
+
+#         resp = self.client.get(self.url)
+#         self.assertEqual(resp.status_code, 200)

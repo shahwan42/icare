@@ -1,21 +1,45 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveUpdateAPIView, UpdateAPIView, CreateAPIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.generics import (
+    UpdateAPIView,
+    CreateAPIView,
+    ListAPIView,
+)
+from rest_framework.permissions import IsAuthenticated
 
+from icare.core.models import Task
 from .serializers import UserSerializer, ChangePasswordSerializer
 from .models import CustomUser as User
-from .permissions import IsSameUser
 
 
-class UserRU(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated, IsSameUser)
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class Requests(ListAPIView):
+    """List user's requests"""
+
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
 
 
-class ChangePassword(UpdateAPIView):
+class Profile(APIView):
+    """Retrieve/Update/partial update user's data(profile)"""
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        return Response()
+
+    def put(self, request):
+        return Response()
+
+    def patch(self, request):
+        return Response()
+
+
+class Password(UpdateAPIView):
+    """Change user's password"""
+
     serializer_class = ChangePasswordSerializer
     model = User
     permission_classes = (IsAuthenticated,)
@@ -43,11 +67,15 @@ class ChangePassword(UpdateAPIView):
 
 
 class Register(CreateAPIView):
+    """Register a new user"""
+
     serializer_class = UserSerializer
     model = User
 
 
 class Logout(APIView):
+    """Logout a user (remove his/her token)"""
+
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):

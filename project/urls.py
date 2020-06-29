@@ -25,23 +25,21 @@ from icare.pages.views import Home
 from icare.core.views import NewTask, TaskUpdatedWebhook, ListCustomFields
 from icare.users.views import UserTasks, Profile, ChangePassword
 from icare.users.endpoints import (
-    UserRU,
-    ChangePassword as ChangePasswordAPIView,
+    Profile as ProfileApi,
+    Requests,
+    Password,
     Register,
     Logout,
 )
 
 
 api_urls = [
-    path("api/users/token", views.obtain_auth_token, name="auth_token"),
-    path("api/users/register", Register.as_view(), name="user_register"),
-    path("api/users/logout", Logout.as_view(), name="user_logout"),
-    path("api/users/<int:pk>", UserRU.as_view(), name="user_ru"),
-    path(
-        "api/users/change_password",
-        ChangePasswordAPIView.as_view(),
-        name="change_password",
-    ),
+    path("api/user/token", views.obtain_auth_token, name="user_token"),
+    path("api/user/logout", Logout.as_view(), name="user_logout"),
+    path("api/user/register", Register.as_view(), name="user_register"),
+    path("api/user/profile", ProfileApi.as_view(), name="user_profile"),
+    path("api/user/password", Password.as_view(), name="user_password"),
+    path("api/user/requests", Requests.as_view(), name="user_requests"),
 ]
 
 
