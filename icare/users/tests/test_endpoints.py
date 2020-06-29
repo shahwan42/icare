@@ -37,16 +37,14 @@ class TestUserRU(APITestCase):
             "name": "Ahmed Shahwan",
             "email": "ahmed@shahwan.me",
         }
-        resp = self.client.put(self.url(self.user1.pk), payload, format="json")
+        resp = self.client.put(self.url(self.user1.pk), payload)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], "Ahmed Shahwan")
         self.assertEqual(resp.data["email"], "ahmed@shahwan.me")
 
     def test_update_user_details_patch(self):
         self.client.force_authenticate(self.user1)
-        resp = self.client.patch(
-            self.url(self.user1.pk), {"name": "New Name"}, format="json"
-        )
+        resp = self.client.patch(self.url(self.user1.pk), {"name": "New Name"})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], "New Name")
         self.assertEqual(resp.data["email"], self.user1.email)
@@ -56,19 +54,15 @@ class TestUserRU(APITestCase):
             "name": "Ahmed Shahwan",
             "email": "ahmed@shahwan.me",
         }
-        resp = self.client.put(self.url(self.user1.pk), payload, format="json")
+        resp = self.client.put(self.url(self.user1.pk), payload)
         self.assertEqual(resp.status_code, 403)
 
-        resp = self.client.patch(
-            self.url(self.user1.pk), {"name": "New Name"}, format="json"
-        )
+        resp = self.client.patch(self.url(self.user1.pk), {"name": "New Name"})
         self.assertEqual(resp.status_code, 403)
 
     def test_update_user_details_same_user_only(self):
         self.client.force_authenticate(self.user1)
-        resp = self.client.patch(
-            self.url(self.user2.pk), {"name": "New Name"}, format="json"
-        )
+        resp = self.client.patch(self.url(self.user2.pk), {"name": "New Name"})
         self.assertEqual(resp.status_code, 403)
 
 
