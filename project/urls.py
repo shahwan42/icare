@@ -18,6 +18,7 @@ from django.contrib.auth.models import Group
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.urls import path, include
+from rest_framework.authtoken import views
 
 
 from icare.pages.views import Home
@@ -27,6 +28,7 @@ from icare.users.endpoints import UserRU, ChangePassword as ChangePasswordAPIVie
 
 
 api_urls = [
+    path("api/users/token", views.obtain_auth_token, name="auth_token"),
     path("api/users/<int:pk>", UserRU.as_view(), name="user_ru"),
     path(
         "api/users/change_password",

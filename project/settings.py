@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "crispy_forms",
     "rest_framework",
+    "rest_framework.authtoken",
     "corsheaders",
     # Local
     "icare.users.apps.UsersConfig",
@@ -178,3 +179,13 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # corsheaders
 CORS_ORIGIN_ALLOW_ALL = True
+
+
+# rest_framework
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ]
+}
