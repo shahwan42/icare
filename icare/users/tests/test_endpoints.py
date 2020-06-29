@@ -35,7 +35,7 @@ class TestUserRU(APITestCase):
 
     def test_user_detail_requires_authentication(self):
         resp = self.client.get(self.url(self.user1.pk))
-        self.assertEqual(resp.status_code, 403)
+        self.assertEqual(resp.status_code, 401)
 
     def test_user_detail_requires_same_user_only(self):
         self.client.force_authenticate(self.user1)
@@ -47,6 +47,7 @@ class TestUserRU(APITestCase):
         payload = {
             "name": "Ahmed Shahwan",
             "email": "ahmed@shahwan.me",
+            "password": "Awesome1",
         }
         resp = self.client.put(self.url(self.user1.pk), payload)
         self.assertEqual(resp.status_code, 200)
@@ -66,10 +67,10 @@ class TestUserRU(APITestCase):
             "email": "ahmed@shahwan.me",
         }
         resp = self.client.put(self.url(self.user1.pk), payload)
-        self.assertEqual(resp.status_code, 403)
+        self.assertEqual(resp.status_code, 401)
 
         resp = self.client.patch(self.url(self.user1.pk), {"name": "New Name"})
-        self.assertEqual(resp.status_code, 403)
+        self.assertEqual(resp.status_code, 401)
 
     def test_update_user_details_same_user_only(self):
         self.client.force_authenticate(self.user1)
@@ -102,7 +103,7 @@ class TestChangePassword(APITestCase):
 
     def test_change_password_requires_authentication(self):
         resp = self.client.put(self.url, self.payload)
-        self.assertEqual(resp.status_code, 403)
+        self.assertEqual(resp.status_code, 401)
 
 
 @tag("auth_token")
@@ -120,4 +121,25 @@ class TestAuthToken(APITestCase):
             self.url, {"username": self.user.email, "password": "Awesome1"}
         )
         self.assertEqual(resp.status_code, 200)
+        self.assertIn("token", resp.data)
+
+
+@tag("register")
+class TestRegister(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.url = reverse("user_register")
+
+    def test_desired_scenario(self):
+        resp = self.client.post(
+            self.url,
+            {
+                "email": "ahmed@shahwan.me",
+                "password": "Awesome1",
+                "name": "Ahmed Shahwan",
+            },
+        )
+        self.assertEqual(resp.status_code, 201)
+        self.assertEqual(resp.data["email"], "ahmed@shahwan.me")
+        self.assertEqual(resp.data["name"], "Ahmed Shahwan")
         self.assertIn("token", resp.data)

@@ -1,6 +1,6 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveUpdateAPIView, UpdateAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, UpdateAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from .serializers import UserSerializer, ChangePasswordSerializer
@@ -39,3 +39,8 @@ class ChangePassword(UpdateAPIView):
         self.object.save()
 
         return Response({"message": "Password updated successfully"})
+
+
+class Register(CreateAPIView):
+    serializer_class = UserSerializer
+    model = User
