@@ -71,9 +71,9 @@ class TestChangePassword(APITestCase):
         self.client = APIClient()
         self.url = reverse("change_password")
 
-        self.user1 = baker.make("users.CustomUser")
-        self.user1.set_password("Awesome1")
-        self.user1.save()
+        self.user = baker.make("users.CustomUser")
+        self.user.set_password("Awesome1")
+        self.user.save()
 
         self.payload = {
             "old_password": "Awesome1",
@@ -81,12 +81,12 @@ class TestChangePassword(APITestCase):
         }
 
     def test_change_password(self):
-        self.assertTrue(self.user1.check_password("Awesome1"))
+        self.assertTrue(self.user.check_password("Awesome1"))
 
-        self.client.force_authenticate(self.user1)
+        self.client.force_authenticate(self.user)
         resp = self.client.put(self.url, self.payload)
         self.assertEqual(resp.status_code, 200)
-        self.assertTrue(self.user1.check_password("Awesome2"))
+        self.assertTrue(self.user.check_password("Awesome2"))
 
     def test_change_password_requires_authentication(self):
         resp = self.client.put(self.url, self.payload)
