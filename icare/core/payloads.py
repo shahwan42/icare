@@ -21,5 +21,5 @@ def create_webhook_payload(*args, **kwargs) -> dict:
     # default to taskUpdated only for now
     return {
         "endpoint": f"{settings.WEBSITE_URL}task_updated",
-        "events": ["taskUpdated",],
+        "events": ["taskUpdated"],
     }
