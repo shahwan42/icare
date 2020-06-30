@@ -28,13 +28,19 @@ class Profile(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        return Response()
+        return Response({"name": request.user.name, "email": request.user.email})
 
     def put(self, request):
-        return Response()
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        updated_user = serializer.save()
+        return Response({"name": updated_user.name, "email": updated_user.email})
 
     def patch(self, request):
-        return Response()
+        serializer = UserSerializer(request.user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        updated_user = serializer.save()
+        return Response({"name": updated_user.name, "email": updated_user.email})
 
 
 class Password(UpdateAPIView):

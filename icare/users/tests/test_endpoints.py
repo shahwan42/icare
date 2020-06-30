@@ -33,11 +33,6 @@ class TestProfile(APITestCase):
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 401)
 
-    def test_user_detail_requires_same_user_only(self):
-        self.client.force_authenticate(self.user1)
-        resp = self.client.get(self.url)
-        self.assertEqual(resp.status_code, 403)
-
     def test_update_user_details_put(self):
         self.client.force_authenticate(self.user1)
         payload = {
@@ -52,10 +47,26 @@ class TestProfile(APITestCase):
 
     def test_update_user_details_patch(self):
         self.client.force_authenticate(self.user1)
+
+        # update name only
         resp = self.client.patch(self.url, {"name": "New Name"})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], "New Name")
         self.assertEqual(resp.data["email"], self.user1.email)
+
+        # update email only
+        resp = self.client.patch(self.url, {"email": "new_email@example.com"})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.data["name"], "New Name")
+        self.assertEqual(resp.data["email"], self.user1.email)
+
+        # update all fields
+        resp = self.client.patch(
+            self.url, {"name": "Ahmed Shahwan", "email": "ahmed@shahwan.me"}
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.data["name"], "Ahmed Shahwan")
+        self.assertEqual(resp.data["email"], "ahmed@shahwan.me")
 
     def test_update_user_details_requires_authentication(self):
         payload = {
@@ -67,11 +78,6 @@ class TestProfile(APITestCase):
 
         resp = self.client.patch(self.url, {"name": "New Name"})
         self.assertEqual(resp.status_code, 401)
-
-    def test_update_user_details_same_user_only(self):
-        self.client.force_authenticate(self.user1)
-        resp = self.client.patch(self.url, {"name": "New Name"})
-        self.assertEqual(resp.status_code, 403)
 
 
 @tag("password")
