@@ -32,6 +32,9 @@ class TestProfile(APITestCase):
     def test_user_detail_requires_authentication(self):
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 401)
+        self.assertEqual(
+            resp.json()["detail"], "Authentication credentials were not provided."
+        )
 
     def test_update_user_details_put(self):
         self.client.force_authenticate(self.user1)
@@ -78,6 +81,9 @@ class TestProfile(APITestCase):
 
         resp = self.client.patch(self.url, {"name": "New Name"})
         self.assertEqual(resp.status_code, 401)
+        self.assertEqual(
+            resp.json()["detail"], "Authentication credentials were not provided."
+        )
 
 
 @tag("password")
@@ -106,6 +112,9 @@ class TestPassword(APITestCase):
     def test_change_password_requires_authentication(self):
         resp = self.client.put(self.url, self.payload)
         self.assertEqual(resp.status_code, 401)
+        self.assertEqual(
+            resp.json()["detail"], "Authentication credentials were not provided."
+        )
 
 
 @tag("token")
@@ -161,17 +170,37 @@ class TestLogout(APITestCase):
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 200)
 
+    def test_logout_requires_authentication(self):
+        resp = self.client.get(self.url)
 
-# @tag("requests")
-# class TestRequests(APITestCase):
-#     def setUp(self):
-#         self.user = baker.make("users.CustomUser")
+        self.assertEqual(resp.status_code, 401)
+        self.assertEqual(
+            resp.json()["detail"], "Authentication credentials were not provided."
+        )
 
-#         self.client = APIClient()
-#         self.url = reverse("user_requests")
 
-#     def test_list_all_users_requests(self):
-#         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.user.auth_token}")
+@tag("requests")
+class TestRequests(APITestCase):
+    def setUp(self):
+        self.user = baker.make("users.CustomUser")
+        baker.make("core.Task", user=self.user)
+        baker.make("core.Task", user=self.user)
+        baker.make("core.Task", user=self.user)
 
-#         resp = self.client.get(self.url)
-#         self.assertEqual(resp.status_code, 200)
+        self.client = APIClient()
+        self.url = reverse("user_requests")
+
+    def test_list_all_users_requests(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.user.auth_token}")
+
+        resp = self.client.get(self.url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(len(resp.data), 3)
+
+    def test_list_all_users_requests_requires_authentication(self):
+        resp = self.client.get(self.url)
+
+        self.assertEqual(resp.status_code, 401)
+        self.assertEqual(
+            resp.json()["detail"], "Authentication credentials were not provided."
+        )

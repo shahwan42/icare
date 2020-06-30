@@ -9,6 +9,7 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAuthenticated
 
 from icare.core.models import Task
+from icare.core.serializers import TaskSerializer
 from .serializers import UserSerializer, ChangePasswordSerializer
 from .models import CustomUser as User
 
@@ -17,6 +18,7 @@ class Requests(ListAPIView):
     """List user's requests"""
 
     permission_classes = (IsAuthenticated,)
+    serializer_class = TaskSerializer
 
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user)
