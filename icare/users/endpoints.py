@@ -30,19 +30,37 @@ class Profile(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        return Response({"name": request.user.name, "email": request.user.email})
+        return Response(
+            {
+                "name": request.user.name,
+                "email": request.user.email,
+                "phone_number": str(request.user.phone_number),
+            }
+        )
 
     def put(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         updated_user = serializer.save()
-        return Response({"name": updated_user.name, "email": updated_user.email})
+        return Response(
+            {
+                "name": updated_user.name,
+                "email": updated_user.email,
+                "phone_number": str(updated_user.phone_number),
+            }
+        )
 
     def patch(self, request):
         serializer = UserSerializer(request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         updated_user = serializer.save()
-        return Response({"name": updated_user.name, "email": updated_user.email})
+        return Response(
+            {
+                "name": updated_user.name,
+                "email": updated_user.email,
+                "phone_number": str(updated_user.phone_number),
+            }
+        )
 
 
 class Password(UpdateAPIView):
@@ -88,4 +106,4 @@ class Logout(APIView):
 
     def get(self, request):
         request.user.auth_token.delete()
-        return Response()
+        return Response({"message": "Token removed."})

@@ -9,7 +9,7 @@ class TestProfile(APITestCase):
     """Test User Retreive/Update/Partial Update"""
 
     def setUp(self):
-        self.user1 = baker.make("users.CustomUser")
+        self.user1 = baker.make("users.CustomUser", phone_number="+201010092181")
         self.user2 = baker.make("users.CustomUser")
 
         self.client = APIClient()
@@ -21,6 +21,7 @@ class TestProfile(APITestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], self.user1.name)
         self.assertEqual(resp.data["email"], self.user1.email)
+        self.assertEqual(resp.data["phone_number"], str(self.user1.phone_number))
 
     def test_user_detail_with_token(self):
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.user1.auth_token}")
@@ -28,6 +29,7 @@ class TestProfile(APITestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], self.user1.name)
         self.assertEqual(resp.data["email"], self.user1.email)
+        self.assertEqual(resp.data["phone_number"], str(self.user1.phone_number))
 
     def test_user_detail_requires_authentication(self):
         resp = self.client.get(self.url)
@@ -42,11 +44,13 @@ class TestProfile(APITestCase):
             "name": "Ahmed Shahwan",
             "email": "ahmed@shahwan.me",
             "password": "Awesome1",
+            "phone_number": "+201010092181",
         }
         resp = self.client.put(self.url, payload)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], "Ahmed Shahwan")
         self.assertEqual(resp.data["email"], "ahmed@shahwan.me")
+        self.assertEqual(resp.data["phone_number"], "+201010092181")
 
     def test_update_user_details_patch(self):
         self.client.force_authenticate(self.user1)
@@ -56,12 +60,14 @@ class TestProfile(APITestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], "New Name")
         self.assertEqual(resp.data["email"], self.user1.email)
+        self.assertEqual(resp.data["phone_number"], str(self.user1.phone_number))
 
         # update email only
         resp = self.client.patch(self.url, {"email": "new_email@example.com"})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], "New Name")
         self.assertEqual(resp.data["email"], self.user1.email)
+        self.assertEqual(resp.data["phone_number"], str(self.user1.phone_number))
 
         # update all fields
         resp = self.client.patch(
@@ -70,6 +76,7 @@ class TestProfile(APITestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], "Ahmed Shahwan")
         self.assertEqual(resp.data["email"], "ahmed@shahwan.me")
+        self.assertEqual(resp.data["phone_number"], str(self.user1.phone_number))
 
     def test_update_user_details_requires_authentication(self):
         payload = {
