@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class CustomUserManager(BaseUserManager):
@@ -50,6 +51,7 @@ class CustomUser(AbstractUser):
     # needed fields
     name = models.CharField(_("name"), max_length=150, blank=True)
     email = models.EmailField(_("email address"), unique=True)
+    phone_number = PhoneNumberField(null=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name"]

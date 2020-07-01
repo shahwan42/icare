@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
+    "phonenumber_field",
     # Local
     "icare.users.apps.UsersConfig",
     "icare.pages.apps.PagesConfig",
@@ -189,3 +190,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ]
 }
+
+
+# phone number field
+PHONENUMBER_DB_FORMAT = "E164"
+# PHONENUMBER_DEFAULT_REGION = "SA"

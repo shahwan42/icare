@@ -13,6 +13,7 @@ markdown==3.2.2
 django-filter==2.3.0
 model-bakery==1.1.0
 django-cors-middleware==1.5.0
+django-phonenumber-field==4.0.0
 
 # dev packages
 black==19.10b0
