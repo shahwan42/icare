@@ -24,6 +24,8 @@ from rest_framework.authtoken import views
 from icare.pages.views import Home
 from icare.core.views import NewTask, TaskUpdatedWebhook, ListCustomFields
 from icare.users.views import UserTasks, Profile, ChangePassword
+
+# API imports
 from icare.users.endpoints import (
     Profile as ProfileApi,
     Requests,
@@ -31,15 +33,19 @@ from icare.users.endpoints import (
     Register,
     Logout,
 )
+from icare.core.endpoints import Lists
 
 
 api_urls = [
+    # Users API
     path("api/user/token", views.obtain_auth_token, name="user_token"),
     path("api/user/logout", Logout.as_view(), name="user_logout"),
     path("api/user/register", Register.as_view(), name="user_register"),
     path("api/user/profile", ProfileApi.as_view(), name="user_profile"),
     path("api/user/password", Password.as_view(), name="user_password"),
     path("api/user/requests", Requests.as_view(), name="user_requests"),
+    # Lists API
+    path("api/lists", Lists.as_view(), name="core_lists"),
 ]
 
 
