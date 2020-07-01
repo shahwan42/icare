@@ -33,7 +33,7 @@ from icare.users.endpoints import (
     Register,
     Logout,
 )
-from icare.core.endpoints import Lists
+from icare.core.endpoints import Lists, Folders
 
 
 api_urls = [
@@ -44,6 +44,8 @@ api_urls = [
     path("api/user/profile", ProfileApi.as_view(), name="user_profile"),
     path("api/user/password", Password.as_view(), name="user_password"),
     path("api/user/requests", Requests.as_view(), name="user_requests"),
+    # Folders API
+    path("api/folders", Folders.as_view(), name="core_folders"),
     # Lists API
     path("api/lists", Lists.as_view(), name="core_lists"),
 ]
