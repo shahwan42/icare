@@ -19,3 +19,7 @@ class FolderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Folder
         fields = "__all__"
+
+
+class FolderDetailSerializer(FolderSerializer):
+    lists = ListSerializer(many=True, read_only=True)

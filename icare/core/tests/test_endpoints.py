@@ -1,3 +1,4 @@
+from unittest import skip
 from django.test import tag
 from django.shortcuts import reverse
 from rest_framework.test import APIClient, APITestCase
@@ -7,6 +8,7 @@ from icare.core.models import List, Folder
 from icare.users.models import CustomUser as User
 
 
+@skip("Not needed for now")
 @tag("lists")
 class TestLists(APITestCase):
     def setUp(self) -> None:
@@ -63,3 +65,35 @@ class TestFolders(APITestCase):
         self.assertEqual(
             resp.json()["detail"], "Authentication credentials were not provided."
         )
+
+
+@tag("folder")
+class TestFolderDetail(APITestCase):
+    def setUp(self) -> None:
+        self.user = baker.make(User)
+
+        self.folder = baker.make(Folder)
+        self.list1 = baker.make(List, folder=self.folder)
+        self.list2 = baker.make(List, folder=self.folder)
+
+        self.client = APIClient()
+
+    def url_detail(self, pk):
+        return reverse("core_folder", args=[pk])
+
+    def test_getting_a_folder_requires_authentication(self):
+        resp = self.client.get(self.url_detail(self.folder.pk))
+
+        self.assertEqual(resp.status_code, 401)
+        self.assertEqual(
+            resp.json()["detail"], "Authentication credentials were not provided."
+        )
+
+    def test_get_a_folder(self):
+        self.client.force_login(self.user)
+        resp = self.client.get(self.url_detail(self.folder.pk))
+
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.json().get("id"), self.folder.id)
+        self.assertEqual(resp.json().get("clickup_id"), self.folder.clickup_id)
+        self.assertEqual(len(resp.json()["lists"]), 2)
