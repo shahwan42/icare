@@ -9,11 +9,7 @@ def create_task_payload(
         "name": name,
         "content": content,
         "due_date": due_date,  # 1508369194377,
-        # TODO uncomment for custom fields
-        # "custom_fields": [
-        #     {"id": "0a52c486-5f05-403b-b4fd-c512ff05131c", "value": 23},
-        #     {"id": "03efda77-c7a0-42d3-8afd-fd546353c2f5", "value": "Text field input"},
-        # ],
+        # TODO attach file
     }
 
 

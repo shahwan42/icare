@@ -1,18 +1,6 @@
 from django import forms
 
 
-class NewTaskFormInSpaces(forms.Form):
-    def __init__(self, list_choices, *args, **kwargs):
-        super(NewTaskForm, self).__init__(*args, **kwargs)
-        self.fields["_list"].choices = list_choices
-
-    name = forms.CharField(label="العنوان")
-    description = forms.CharField(
-        label="الوصف", widget=forms.Textarea(attrs={"rows": 10, "cols": 30})
-    )
-    _list = forms.ChoiceField(label="الفئة")
-
-
 class NewTaskForm(forms.Form):
     """New task form to work with folders"""
 

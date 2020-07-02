@@ -64,7 +64,7 @@ function dropdown_field(drop_down) {
     </p>
     `
 }
-
+/*
 function getCustomFields() {
     // Get list's primary key
     pk = $("select").children("option:selected").val()
@@ -88,3 +88,4 @@ function getCustomFields() {
         }
     });
 }
+*/
