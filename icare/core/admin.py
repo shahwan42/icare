@@ -141,6 +141,7 @@ class TaskAdmin(admin.ModelAdmin):
         "user_email",
     ]
     readonly_fields = (
+        "id",
         "clickup_id",
         "name",
         "description",

@@ -42,8 +42,7 @@ def get_folders(space_id: int) -> list:
 def get_folder(folder_id: int) -> dict:
     # folder_id 8969050
     url = f"{base_url}folder/{folder_id}"
-    folder = requests.get(url, headers=req_headers).json()
-    return folder
+    return requests.get(url, headers=req_headers).json()
 
 
 def get_lists(folder_id: int) -> list:
@@ -83,6 +82,12 @@ def create_task(list_id: int, payload: dict) -> dict:
     # list_id 19430919
     url = f"{base_url}list/{list_id}/task"
     return requests.post(url, json=payload, headers=req_headers).json()
+
+
+def update_task(task_id: str, payload: dict) -> dict:
+    # task_id
+    url = f"{base_url}task/{task_id}"
+    return requests.put(url, json=payload, headers=req_headers).json()
 
 
 def create_webhook(team_id: int, payload: dict) -> dict:

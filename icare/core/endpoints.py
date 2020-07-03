@@ -17,6 +17,7 @@ from .serializers import (
     FolderSerializer,
     FolderDetailSerializer,
     NewRequestSerializer,
+    UpdateRequestSerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -42,6 +43,8 @@ class FolderDetail(RetrieveAPIView):
 
 
 class ICareRequest(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request, *args, **kwargs):
         """New Request"""
 
@@ -89,5 +92,42 @@ class ICareRequest(APIView):
 
         return Response({"detail": "Request created successfully!"})
 
-    def patch(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         """Update Request"""
+
+        # data validation
+        serializer = UpdateRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # data extraction
+        vd = serializer.validated_data
+        name = vd.get("name")
+        description = vd.get("description")
+        due_date = vd.get("due_date")
+        task = vd.get("task")
+
+        # logic
+        clickup_description = f"{description}\n\n user's email: {request.user.email}\n"
+        if due_date:
+            date_to_time = time.mktime(
+                datetime.datetime.strptime(str(due_date), "%Y-%m-%d").timetuple()
+            )
+            due_date = int(date_to_time * 1000)
+
+        remote_task = u.update_task(
+            task.clickup_id,
+            p.create_task_payload(name, clickup_description, due_date=due_date,),
+        )
+
+        if remote_task and remote_task.get("err"):
+            logger.error(str(remote_task), exc_info=sys.exc_info())
+            return Response(
+                {"detail": "Updating Request failed. Try again later"}, status=400
+            )
+
+        # update task locally
+        task.name = name
+        task.description = description
+        task.save()
+
+        return Response({"detail": "Request updated successfully!"})

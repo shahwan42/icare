@@ -46,3 +46,25 @@ class NewRequestSerializer(serializers.Serializer):
         attrs["list"] = ls
 
         return attrs
+
+
+class UpdateRequestSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    description = serializers.CharField()
+    due_date = serializers.DateField(required=False)
+    request_id = serializers.IntegerField(min_value=1)
+
+    def validate(self, attrs):
+        request_id = attrs.get("request_id")
+
+        try:
+            req = Task.objects.get(id=request_id)
+        except Task.DoesNotExist:
+            raise ValidationError({"request_id": "Not found"})
+
+        if not req.is_active:
+            raise ValidationError({"request_id": "Inactive Request"})
+
+        attrs["task"] = req
+
+        return attrs
