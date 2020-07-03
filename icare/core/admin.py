@@ -18,7 +18,7 @@ class ListInline(admin.TabularInline):
     formfield_overrides = {
         models.TextField: {"widget": Textarea(attrs={"rows": 3, "cols": 36})},
     }
-    readonly_fields = ("clickup_id", "name", "description")
+    readonly_fields = ("id", "clickup_id", "name", "description")
 
 
 class TaskInline(admin.TabularInline):
@@ -112,7 +112,7 @@ class SpaceAdmin(admin.ModelAdmin):
 class FolderAdmin(admin.ModelAdmin):
     inlines = (ListInline,)
     list_display = ["clickup_id", "name", "is_active"]
-    readonly_fields = ("clickup_id", "name", "description", "space")
+    readonly_fields = ("id", "clickup_id", "name", "description", "space")
     actions = [activate]
 
 

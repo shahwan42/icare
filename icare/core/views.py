@@ -131,7 +131,7 @@ class TaskUpdatedWebhook(View):
             # print(request.body)
             remote_task = json.loads(request.body)
             if not remote_task.get("task_id"):
-                return JsonResponse(status=400)
+                return JsonResponse({}, status=400)
 
             print(remote_task)
             logger.info(remote_task)
