@@ -128,6 +128,7 @@ class ICareRequest(APIView):
         # update task locally
         task.name = name
         task.description = description
+        task.updated_json = remote_task
         task.save()
 
         return Response({"detail": "Request updated successfully!"})

@@ -19,6 +19,7 @@ class ListInline(admin.TabularInline):
         models.TextField: {"widget": Textarea(attrs={"rows": 3, "cols": 36})},
     }
     readonly_fields = ("id", "clickup_id", "name", "description")
+    extra = 0
 
 
 class TaskInline(admin.TabularInline):
@@ -34,14 +35,17 @@ class TaskInline(admin.TabularInline):
         "description",
         "user",
     )
+    extra = 0
 
 
 class ListCustomFieldInline(admin.TabularInline):
     model = List.custom_fields.through
+    extra = 0
 
 
 class TaskCustomFieldInline(admin.TabularInline):
     model = TaskCustomField
+    extra = 0
 
 
 # ============================= Actions
