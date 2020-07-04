@@ -34,11 +34,12 @@ class Profile(APIView):
     def get(self, request):
         return Response(UserSerializer(request.user, context={"request": request}).data)
 
-    def put(self, request):
-        serializer = UserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        updated_user = serializer.save()
-        return Response(UserSerializer(updated_user, context={"request": request}).data)
+    # TODO remove later after making sure not needed
+    # def put(self, request):
+    #     serializer = UserSerializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     updated_user = serializer.save()
+    #     return Response(UserSerializer(updated_user, context={"request": request}).data)
 
     def patch(self, request):
         serializer = UserSerializer(request.user, data=request.data, partial=True)
