@@ -1,6 +1,6 @@
 # Third-parties
 requests==2.23.0
-sentry-sdk==0.15.1
+sentry-sdk==0.16.0
 Pillow==7.2.0
 
 # Django & DRF
@@ -14,7 +14,7 @@ markdown==3.2.2
 django-filter==2.3.0
 model-bakery==1.1.0
 django-cors-middleware==1.5.0
-django-phonenumber-field==4.0.0
+django-phonenumber-field[phonenumbers]==4.0.0
 
 # dev packages
 black==19.10b0
