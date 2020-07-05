@@ -23,7 +23,13 @@ class FolderSerializer(serializers.ModelSerializer):
 
 
 class FolderDetailSerializer(FolderSerializer):
-    lists = ListSerializer(many=True, read_only=True)
+    lists = serializers.SerializerMethodField(read_only=True)
+
+    def get_lists(self, folder):
+        """Get active lists only"""
+        qs = List.objects.filter(is_active=True, folder=folder)
+        serializer = ListSerializer(instance=qs, many=True)
+        return serializer.data
 
 
 class BaseRequestSerializer(serializers.Serializer):

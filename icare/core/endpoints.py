@@ -34,13 +34,13 @@ class Lists(ListAPIView):
 class Folders(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = FolderSerializer
-    queryset = Folder.objects.all()
+    queryset = Folder.objects.filter(is_active=True)
 
 
 class FolderDetail(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = FolderDetailSerializer
-    queryset = Folder.objects.all()
+    queryset = Folder.objects.filter(is_active=True)
 
 
 class ICareRequest(APIView):

@@ -16,8 +16,9 @@ class TestLists(APITestCase):
 
         self.folder = baker.make(Folder)
 
-        self.list1 = baker.make(List, folder=self.folder)
-        self.list2 = baker.make(List, folder=self.folder)
+        self.list1 = baker.make(List, folder=self.folder, is_active=True)
+        self.list2 = baker.make(List, folder=self.folder, is_active=True)
+        self.list3 = baker.make(List, folder=self.folder)
         self.list3 = baker.make(List)
 
         self.client = APIClient()
@@ -44,9 +45,10 @@ class TestFolders(APITestCase):
     def setUp(self) -> None:
         self.user = baker.make(User)
 
-        self.folder1 = baker.make(Folder)
-        self.folder2 = baker.make(Folder)
-        self.folder3 = baker.make(Folder)
+        self.folder1 = baker.make(Folder, is_active=True)
+        self.folder2 = baker.make(Folder, is_active=True)
+        self.folder3 = baker.make(Folder, is_active=True)
+        self.folder4 = baker.make(Folder)
 
         self.client = APIClient()
         self.url = reverse("core_folders")
@@ -72,9 +74,10 @@ class TestFolderDetail(APITestCase):
     def setUp(self) -> None:
         self.user = baker.make(User)
 
-        self.folder = baker.make(Folder)
-        self.list1 = baker.make(List, folder=self.folder)
-        self.list2 = baker.make(List, folder=self.folder)
+        self.folder = baker.make(Folder, is_active=True)
+        self.list1 = baker.make(List, folder=self.folder, is_active=True)
+        self.list2 = baker.make(List, folder=self.folder, is_active=True)
+        self.list3 = baker.make(List, folder=self.folder)
 
         self.client = APIClient()
 
