@@ -100,3 +100,12 @@ class TestFolderDetail(APITestCase):
         self.assertEqual(resp.json().get("id"), self.folder.id)
         self.assertEqual(resp.json().get("clickup_id"), self.folder.clickup_id)
         self.assertEqual(len(resp.json()["lists"]), 2)
+
+    def test_get_a_folder_thats_not_active(self):
+        self.client.force_login(self.user)
+        folder = baker.make(Folder)
+        baker.make(List, folder=folder)
+        baker.make(List, folder=folder)
+
+        resp = self.client.get(self.url_detail(folder.pk))
+        self.assertEqual(resp.status_code, 404)
