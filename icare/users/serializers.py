@@ -28,8 +28,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_avatar_url(self, user):
         request = self.context.get("request")
-        avatar_url = user.avatar.url
-        return request.build_absolute_uri(avatar_url)
+        if user.avatar:
+            avatar_url = user.avatar.url
+            return request.build_absolute_uri(avatar_url)
+        return None
 
 
 class ChangePasswordSerializer(serializers.Serializer):
