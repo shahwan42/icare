@@ -28,8 +28,7 @@ def get_spaces(team_id: int) -> list:
 def get_space(space_id: int) -> dict:
     # space_id 2671955
     url = f"{base_url}space/{space_id}"
-    space = requests.get(url, headers=req_headers).json()
-    return space
+    return requests.get(url, headers=req_headers).json()
 
 
 def get_folders(space_id: int) -> list:
@@ -85,9 +84,16 @@ def create_task(list_id: int, payload: dict) -> dict:
 
 
 def update_task(task_id: str, payload: dict) -> dict:
-    # task_id
+    # task_id 6cj8jy
     url = f"{base_url}task/{task_id}"
     return requests.put(url, json=payload, headers=req_headers).json()
+
+
+def attachment(task_id: str, file) -> dict:
+    """attach a file to a task"""
+    # task_id 6cj8jy
+    url = f"{base_url}task/{task_id}/attachment"
+    return requests.post(url, files={"attachment": file}, headers=req_headers).json()
 
 
 def create_webhook(team_id: int, payload: dict) -> dict:

@@ -120,6 +120,16 @@ class Task(Entity):
             return self.user.email
 
 
+class Attachment(models.Model):
+    """Attachment representation locally"""
+
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="attachments")
+    created_json = JSONField("ClickUp JSON Response")
+
+    def __str__(self):
+        return self.created_json.get("title")
+
+
 class Webhook(models.Model):
     team = models.ForeignKey(
         Team, on_delete=models.CASCADE, related_name="webhooks", null=True, blank=True

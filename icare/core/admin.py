@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.forms import TextInput, Textarea
 from django.db import models
 from .models import (
+    Attachment,
     Team,
     Folder,
     List,
@@ -35,6 +36,12 @@ class TaskInline(admin.TabularInline):
         "description",
         "user",
     )
+    extra = 0
+
+
+class AttachmentInline(admin.TabularInline):
+    model = Attachment
+    readonly_fields = ("task", "created_json")
     extra = 0
 
 
@@ -134,7 +141,7 @@ class ListAdmin(admin.ModelAdmin):
 
 
 class TaskAdmin(admin.ModelAdmin):
-    inlines = (TaskCustomFieldInline,)
+    inlines = (TaskCustomFieldInline, AttachmentInline)
     list_display = [
         "clickup_id",
         "name",

@@ -11,12 +11,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from . import utils as u, payloads as p
-from .models import List, Folder, Task
+from .models import List, Folder, Task, Attachment
 from .serializers import (
     ListSerializer,
     FolderSerializer,
     FolderDetailSerializer,
     NewRequestSerializer,
+    AttachmentSerializer,
     UpdateRequestSerializer,
 )
 
@@ -132,3 +133,18 @@ class ICareRequest(APIView):
         task.save()
 
         return Response({"detail": "Request updated successfully!"})
+
+
+class RequestAttachment(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = AttachmentSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        vd = serializer.validated_data
+        file = vd.get("attachment")
+        task = vd.get("task")
+
+        created_json = u.attachment(task.clickup_id, file)
+        Attachment.objects.create(task=task, created_json=created_json)
+
+        return Response(created_json)

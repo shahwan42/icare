@@ -68,3 +68,20 @@ class UpdateRequestSerializer(serializers.Serializer):
         attrs["task"] = req
 
         return attrs
+
+
+class AttachmentSerializer(serializers.Serializer):
+    attachment = serializers.FileField()
+    request_id = serializers.IntegerField(min_value=1)
+
+    def validate(self, attrs):
+        request_id = attrs.get("request_id")
+
+        try:
+            req = Task.objects.get(id=request_id)
+        except Task.DoesNotExist:
+            raise ValidationError({"request_id": "Not found"})
+
+        attrs["task"] = req
+
+        return attrs
