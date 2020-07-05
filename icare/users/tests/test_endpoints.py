@@ -1,3 +1,4 @@
+from unittest.case import skip
 from django.shortcuts import reverse
 from django.test import tag
 from rest_framework.test import APITestCase, APIClient
@@ -38,6 +39,7 @@ class TestProfile(APITestCase):
             resp.json()["detail"], "Authentication credentials were not provided."
         )
 
+    @skip("no more put")
     def test_update_user_details_put(self):
         self.client.force_authenticate(self.user1)
         payload = {

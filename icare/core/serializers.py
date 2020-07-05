@@ -26,10 +26,15 @@ class FolderDetailSerializer(FolderSerializer):
     lists = ListSerializer(many=True, read_only=True)
 
 
-class NewRequestSerializer(serializers.Serializer):
+class BaseRequestSerializer(serializers.Serializer):
+    """Common fields for Request Serializers"""
+
     name = serializers.CharField()
     description = serializers.CharField()
     due_date = serializers.DateField(required=False)
+
+
+class NewRequestSerializer(BaseRequestSerializer):
     list_id = serializers.IntegerField(min_value=1)
 
     def validate(self, attrs):
@@ -49,9 +54,6 @@ class NewRequestSerializer(serializers.Serializer):
 
 
 class UpdateRequestSerializer(serializers.Serializer):
-    name = serializers.CharField()
-    description = serializers.CharField()
-    due_date = serializers.DateField(required=False)
     request_id = serializers.IntegerField(min_value=1)
 
     def validate(self, attrs):
