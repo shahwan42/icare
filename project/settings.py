@@ -39,7 +39,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
 if not DEBUG:
     sentry_sdk.init(
-        dsn="https://48026f2f113f4948ae15fba07849fb0c@o344310.ingest.sentry.io/5298727",
+        dsn=env("SENTRY_DSN"),
         integrations=[DjangoIntegration()],
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
