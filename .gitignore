@@ -150,3 +150,5 @@ clickup/
 # media files
 media/
 
+# local_gunicorn_config.py
+deploy/local_gunicorn_config.py
