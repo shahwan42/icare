@@ -1,4 +1,4 @@
-# ClickUp Tasks Board
+# I Care (Extends ClickUp Tasks Board Project)
 
 An easy-to-use tasks board front-end for ClickUp
 
