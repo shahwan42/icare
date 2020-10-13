@@ -1,21 +1,21 @@
-# copy to /etc/systemd/system/gunicorn_icare.service
+# copy to /etc/systemd/system/gunicorn_PROJECT_NAME.service
 
 [Unit]
-Description=gunicorn daemon for icare project
-Requires=gunicorn_icare.socket
+Description=gunicorn daemon for PROJECT_NAME project
+Requires=gunicorn_PROJECT_NAME.socket
 After=network.target
 
 [Service]
 Type=notify
 # the specific user that our service will run as
-User=as
-Group=as
+User=USERNAME
+Group=USERNAME
 # another option for an even more restricted service is
 # DynamicUser=yes
 # see http://0pointer.net/blog/dynamic-users-with-systemd.html
 RuntimeDirectory=gunicorn
-WorkingDirectory=/home/as/i_care
-ExecStart=/home/as/.virtualenvs/icare/bin/gunicorn -c /home/as/i_care/deploy/gunicorn_config.py project.wsgi
+WorkingDirectory=/home/USERNAME/PROJECT_NAME
+ExecStart=/home/USERNAME/.virtualenvs/VENV_NAME/bin/gunicorn -c /home/USERNAME/PROJECT_NAME/deploy/gunicorn_config.py project.wsgi
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5
