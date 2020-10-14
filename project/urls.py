@@ -4,8 +4,6 @@ from django.contrib.auth.models import Group
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.urls import path, include
-from django.shortcuts import redirect
-from django.views.generic.base import RedirectView
 from rest_framework.authtoken import views
 
 
@@ -48,31 +46,26 @@ api_urls = [
 ]
 
 
-def temp_home(request):
-    return redirect("/admin")
-
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", temp_home, name="home"),
-    # path("", Home.as_view(), name="home"),
-    # path("task_updated", TaskUpdatedWebhook.as_view(), name="task_updated"),
-    # path("new_task/<int:folder_id>", NewTask.as_view(), name="new_task"),
-    # path(
-    #     "lists/<int:pk>/custom_fields",
-    #     ListCustomFields.as_view(),
-    #     name="list_custom_fields",
-    # ),
-    # path(
-    #     "new_task/success",
-    #     TemplateView.as_view(template_name="core/new_task_success.html"),
-    #     name="new_task_success",
-    # ),
-    # path("users/", include("users.urls")),
-    # path("users/tasks", UserTasks.as_view(), name="user_tasks"),
-    # path("users/profile/<int:pk>", Profile.as_view(), name="user_profile"),
-    # path("users/password_change/", ChangePassword.as_view(), name="password_change"),
-    # path("users/", include("django.contrib.auth.urls")),
+    path("", Home.as_view(), name="home"),
+    path("task_updated", TaskUpdatedWebhook.as_view(), name="task_updated"),
+    path("new_task/<int:folder_id>", NewTask.as_view(), name="new_task"),
+    path(
+        "lists/<int:pk>/custom_fields",
+        ListCustomFields.as_view(),
+        name="list_custom_fields",
+    ),
+    path(
+        "new_task/success",
+        TemplateView.as_view(template_name="core/new_task_success.html"),
+        name="new_task_success",
+    ),
+    path("users/", include("icare.users.urls")),
+    path("users/tasks", UserTasks.as_view(), name="user_tasks"),
+    path("users/profile/<int:pk>", Profile.as_view(), name="user_profile"),
+    path("users/password_change/", ChangePassword.as_view(), name="password_change"),
+    path("users/", include("django.contrib.auth.urls")),
     path("api-auth/", include("rest_framework.urls")),
 ] + api_urls
 
@@ -80,7 +73,7 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-admin.site.site_header = "I Care Admin"
-admin.site.site_title = "I Care Admin Portal"
-admin.site.index_title = "Welcome to I Care Portal"
+admin.site.site_header = "I Care Administration"
+admin.site.site_title = "Administration"
+admin.site.index_title = "Welcome"
 admin.site.unregister(Group)

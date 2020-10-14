@@ -1,3 +1,4 @@
+from re import search
 from django.contrib import admin
 from django.forms import TextInput, Textarea
 from django.db import models
@@ -111,25 +112,31 @@ def activate(modeladmin, request, queryset):
 
 # ============================= Admins
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ["clickup_id", "name", "is_active"]
+    list_display = ("clickup_id", "name", "is_active")
+    list_filter = ("is_active",)
+    search_fields = ("clickup_id", "name")
     actions = [import_data]
 
 
 class SpaceAdmin(admin.ModelAdmin):
-    list_display = ["clickup_id", "name", "is_active"]
+    list_display = ("clickup_id", "name", "is_active")
     readonly_fields = ("clickup_id", "name", "description", "team")
 
 
 class FolderAdmin(admin.ModelAdmin):
     inlines = (ListInline,)
-    list_display = ["clickup_id", "name", "is_active"]
+    list_display = ("clickup_id", "name", "is_active")
+    list_filter = ("is_active",)
     readonly_fields = ("id", "clickup_id", "name", "description", "space")
+    search_fields = ("id", "clickup_id", "name", "description")
     actions = [activate]
 
 
 class ListAdmin(admin.ModelAdmin):
     inlines = (TaskInline, ListCustomFieldInline)
-    list_display = ["clickup_id", "name", "is_active"]
+    list_display = ("clickup_id", "name", "is_active")
+    list_filter = ("is_active",)
+    search_fields = ("clickup_id", "name")
     readonly_fields = (
         "clickup_id",
         "name",
@@ -151,6 +158,14 @@ class TaskAdmin(admin.ModelAdmin):
         "user_name",
         "user_email",
     ]
+    list_filter = ("is_active",)
+    search_fields = (
+        "clickup_id",
+        "name",
+        "is_active",
+        "user__name",
+        "user__email",
+    )
     readonly_fields = (
         "id",
         "clickup_id",

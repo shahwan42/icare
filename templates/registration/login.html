@@ -15,11 +15,11 @@
   <meta name="contactPhoneNumber" CONTENT="+201121665301">
 
   <!-- Site Title-->
-  <title>MiSK helpdesk | Login</title>
+  <title>I Care | Login</title>
   {% comment %} {% block title %}Login{% endblock title %} {% endcomment %}
 
   <!-- Favicon-->
-  <link rel="shortcut icon" href="{% static 'images/icons/favicon.png' type='image/x-icon' %}">
+  <link rel="shortcut icon" href="{% static 'images/icons/fav.ico' type='image/x-icon' %}">
 
   <!-- Base & Vendors-->
   <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap-ar.css' %}">
@@ -36,7 +36,7 @@
         </div>
         <div class="col-md-6 col-lg-5 col-xl-4 words-right d-flex align-items-center justify-content-center">
           <div class="inner">
-            <p class="logo"><a href="{% url 'home' %}"><img src="{% static 'images/misk_logo.png' %}" alt="Logo"></a></p>
+            <p class="logo"><a href="{% url 'home' %}"><img src="{% static 'images/force_touches_logo.jpeg' %}" alt="Logo"></a></p>
             <h3 class="mb-50px fw-600 ">تسجيل الدخول</h3>
             <form method="POST" class="login-form">{% csrf_token %}
               {% if form.errors %}
