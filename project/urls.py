@@ -4,6 +4,8 @@ from django.contrib.auth.models import Group
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.urls import path, include
+from django.shortcuts import redirect
+from django.views.generic.base import RedirectView
 from rest_framework.authtoken import views
 
 
@@ -46,8 +48,13 @@ api_urls = [
 ]
 
 
+def temp_home(request):
+    return redirect("/admin")
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", temp_home, name="home"),
     # path("", Home.as_view(), name="home"),
     # path("task_updated", TaskUpdatedWebhook.as_view(), name="task_updated"),
     # path("new_task/<int:folder_id>", NewTask.as_view(), name="new_task"),
