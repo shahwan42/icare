@@ -4,7 +4,7 @@ sentry-sdk==0.16.0
 Pillow==8.2.0
 
 # Django & DRF
-Django==2.2.21
+Django==2.2.22
 psycopg2-binary==2.8.4
 django-extensions==2.2.9
 django-environ==0.4.5
